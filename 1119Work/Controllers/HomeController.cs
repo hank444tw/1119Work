@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using _1119Work.Models;
+using PagedList;
+using System.Net; //取得IP要用到的
+
+namespace _1119Work.Controllers
+{
+    public class HomeController : Controller
+    {
+        DB40441124Entities3 db = new DB40441124Entities3();
+        // GET: Home
+        public int pagesize = 5;
+        public ActionResult Index()
+        {
+            return View("Index");
+        }
+
+        public ActionResult SigninRecord(int page = 1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+            var logdata = (from d1 in db.MemLog
+                           join d2 in db.Member
+                           on d1.Mem_id equals d2.Mem_id
+                           select new
+                           {
+                               d1.Mem_id,
+                               d1.IPAdress,
+                               d1.Log_date,
+                               d1.Log_id,
+                               d2.Mem_name,
+                               d2.Mem_password
+                           }).OrderByDescending(m => m.Log_date).ToList();
+            List<JoinLog> joinlog = new List<JoinLog>();
+            foreach(var item in logdata)
+            {
+                joinlog.Add(new JoinLog
+                {
+                    Mem_id = item.Mem_id,
+                    Mem_name = item.Mem_name,
+                    IPAdress = item.IPAdress,
+                    Log_date = item.Log_date
+                });
+            }
+            var Result = joinlog.ToPagedList(currentPage, pagesize);
+            return View("SigninRecord",Result);
+        }
+
+        public ActionResult ListMember()
+        {
+            /*List<Member> member = new List<Member>();
+            member = db.Member.ToList();*/
+            var member = db.Member.ToList();
+
+            return View(member);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
+            return View(todo);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id,string Mem_password, string Mem_name)
+        {
+            var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
+            todo.Mem_password = Mem_password;
+            todo.Mem_name = Mem_name;
+            db.SaveChanges();
+            return RedirectToAction("ListMember");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
+            db.Member.Remove(todo);
+            db.SaveChanges();
+            return RedirectToAction("ListMember");
+        }
+
+        public ActionResult CreateMember()
+        {
+            return View();
+        }
+
+        /*[HttpPost] 
+        public ActionResult CreateMember(Member member) 也行
+        {
+            db.Member.Add(member);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }*/
+
+        [HttpPost]
+        public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name)
+        {
+            var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            if(test_id != null)
+            {
+                ViewBag.Message = "帳號已有人使用!";
+                return View();
+            }
+            Member member = new Member();
+            member.Mem_id = Mem_id;
+            member.Mem_password = Mem_password;
+            member.Mem_name = Mem_name;
+            db.Member.Add(member);
+            db.SaveChanges();
+            return RedirectToAction("ListMember");
+        }
+
+
+        public ActionResult Signin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Signin(string Mem_id,string Mem_password)
+        {
+            var member = db.Member.Where(m => m.Mem_id == Mem_id && m.Mem_password == Mem_password).FirstOrDefault();
+            if(member == null)
+            {
+                ViewBag.Message = "帳號或密碼錯誤";
+                return View();
+            }
+            else
+            {
+                Session["Welcome"] = member.Mem_name + " 你好!";
+                Session["member"] = member;
+
+                string ip = GetClientIP();
+
+                string date = DateTime.Now.ToString();
+
+                DateTime myDate = DateTime.Now;
+                string myDateString = myDate.ToString("yyyy-MM-dd HH:mm:ss");
+
+                MemLog memLog = new MemLog();
+                memLog.Mem_id = member.Mem_id;
+                memLog.IPAdress = ip;
+                memLog.Log_date = myDateString;
+                
+
+                db.MemLog.Add(memLog);
+                db.SaveChanges();
+            }
+            return RedirectToAction("SigninRecord");
+        }
+
+        public ActionResult SignOut()
+        {
+            Session["Member"] = null;
+            return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+        /// 取得正確的Client端IP
+        /// </summary>
+        /// <returns></returns>
+        protected string GetClientIP()
+        {
+            //------取得ip------
+            String strHostName = Dns.GetHostName();
+            IPHostEntry iphostentry = Dns.GetHostByName(strHostName);   //取得本機的 IpHostEntry 類別實體
+            string ip = iphostentry.AddressList[0].ToString();
+            /* 網路找的 不知道他為啥要用foreach
+            foreach (IPAddress ipaddress in iphostentry.AddressList)
+            {
+                Console.WriteLine(ipaddress.ToString());//使用了兩種方式都可以讀取出IP位置
+                TempData["1"]= ipaddress.ToString();
+                ip = ip + ipaddress.ToString();
+            }
+            */
+            //------取得ip------
+            return (ip);
+        }
+
+    }
+}

@@ -1,0 +1,7 @@
+﻿@if (Session["member"] == null) {
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB40441124Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mem_id" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mem_password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mem_name" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="MemLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Log_id" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mem_id" Type="nvarchar" MaxLength="50" />
+    <Property Name="IPAdress" Type="nvarchar" MaxLength="50" />
+    <Property Name="Log_date" Type="date" />
+  </EntityType>
+  <EntityContainer Name="DB40441124ModelStoreContainer">
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MemLog" EntityType="Self.MemLog" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

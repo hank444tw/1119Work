@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB40441124ModelStoreContainer" CdmEntityContainer="DB40441124Entities3">
+    <EntitySetMapping Name="Member">
+      <EntityTypeMapping TypeName="DB40441124Model.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
+          <ScalarProperty Name="Mem_password" ColumnName="Mem_password" />
+          <ScalarProperty Name="Mem_name" ColumnName="Mem_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MemLog">
+      <EntityTypeMapping TypeName="DB40441124Model.MemLog">
+        <MappingFragment StoreEntitySet="MemLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Log_id" ColumnName="Log_id" />
+          <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
+          <ScalarProperty Name="IPAdress" ColumnName="IPAdress" />
+          <ScalarProperty Name="Log_date" ColumnName="Log_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

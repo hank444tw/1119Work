@@ -1,0 +1,63 @@
+﻿@model IPagedList<_1119Work.Models.JoinLog>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "登入紀錄";
+}
+
+<h2>登入紀錄</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            帳號
+        </th>
+        <th>
+            姓名
+        </th>
+        <th>
+            IP位址
+        </th>
+        <th>
+            登入時間
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mem_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mem_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IPAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Log_date)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-5">
+        @Html.PagedListPager(Model,page=>Url.Action("SigninRecord",new { page }),
+    new PagedListRenderOptions {
+        LinkToFirstPageFormat = "<<",
+        LinkToPreviousPageFormat = "<",
+        LinkToNextPageFormat = ">",
+        LinkToLastPageFormat = ">>",
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always
+    })
+    </div>
+</div>
+
