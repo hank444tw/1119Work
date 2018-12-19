@@ -73,7 +73,6 @@ C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\zh-Hant\System.Web.W
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\zh-Hant\System.Web.Webpages.Razor.resources.dll
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\zh-Hant\System.Web.Helpers.resources.dll
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\zh-Hant\System.Web.Mvc.resources.dll
-C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\obj\Debug\1119Work.csprojAssemblyReference.cache
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\obj\Debug\1119Work.csproj.CoreCompileInputs.cache
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\obj\Debug\1119Work.csproj.CopyComplete
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\obj\Debug\1119Work.dll
@@ -82,3 +81,4 @@ C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\PagedList.dll
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\PagedList.Mvc.dll
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\PagedList.xml
 C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\bin\PagedList.Mvc.xml
+C:\Users\hank.000\Desktop\ASP_NET_MVC\1119Work\1119Work\obj\Debug\1119Work.csprojAssemblyReference.cache
