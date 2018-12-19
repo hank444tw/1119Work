@@ -1,129 +1,71 @@
-﻿<!DOCTYPE html>
-<html class="no-js">
-<head>
-    <link rel="stylesheet" href="~/css/normalize.css">
-    <link rel="stylesheet" href="~/wow_book/wow_book.css" type="text/css" />
-    <link rel="stylesheet" href="~/css/main.css">
+﻿<link rel="stylesheet" href="~/css/normalize.css">
+<link rel="stylesheet" href="~/wow_book/wow_book.css" type="text/css" />
+<link rel="stylesheet" href="~/css/main.css">
 <script src="~/js/vendor/modernizr-2.7.1.min.js"></script>
-</head>
 
-<body>
-    <!-- Add your site or application content here -->
-    <div class='book_container'>
-        <div id="book">
-            <div>
-                <img src="~/Image/1.png" width="100%" height="100%" />
-            </div>
-            <div>內頁</div>
-            <div>
-                第一頁, page 1
-                <img src="pic/cat2.jpg" width="100%" height="100%" />
-            </div>
-            <div data-double='true'>
-                可以一次跨2頁, page 2, 3
-                <img src="pic/cat3.jpg" width="100%" height="100%" />
-            </div>
-            <div>
-                page 4
-                <img src="pic/cat4.jpg" width="100%" height="100%" />
-            </div>
-            <div>書背內頁</div>
-            <div>
-                書背封面
-                <img src="pic/cat1.jpg" width="100%" height="100%" />
-            </div>
+<div class='book_container'>
+    <div id="book">
+        <div>
+            <img src="pic/cat1.jpg" width="100%" height="100%" />
+        </div>
+        <div>內頁</div>
+        <div>
+            第一頁, page 1
+            <img src="pic/cat2.jpg" width="100%" height="100%" />
+        </div>
+        <div data-double='true'>
+            可以一次跨2頁, page 2, 3
+            <img src="pic/cat3.jpg" width="100%" height="100%" />
+        </div>
+        <div>
+            page 4
+            <img src="pic/cat4.jpg" width="100%" height="100%" />
+        </div>
+        <div>書背內頁</div>
+        <div>
+            書背封面
+            <img src="pic/cat1.jpg" width="100%" height="100%" />
         </div>
     </div>
-    <!-- if you don't need support for IE8 use jquery 2.1 -->
-    <!--<script src="~/js/vendor/jquery-2.1.0.min.js"></script>-->
-    <script src="~/js/vendor/jquery-1.11.2.min.js"></script>
-    <script src="~/js/helper.js"></script>
-    <script src="~/wow_book/wow_book.min.js"></script>
-    <!--<script src="js/main.js"></script>-->
-    <script>
-        $(function () {
-
-            var bookOptions = {
-                height: 500
-                , width: 800
-                // ,maxWidth : 800
-                , maxHeight: 600
-
-                , centeredWhenClosed: true
-                , hardcovers: true
-                , toolbar: "lastLeft, left, right, lastRight, toc, zoomin, zoomout, slideshow, flipsound, fullscreen, thumbnails, download"
-                , thumbnailsPosition: 'left'
-                , responsiveHandleWidth: 50
-
-                , container: window
-                , containerPadding: "20px"
-                // ,toolbarContainerPosition: "top" // default "bottom"
-
-                // Uncomment the option toc to create a Table of Contents
-                // ,toc: [                    // table of contents in the format
-                // 	[ "Introduction", 2 ],  // [ "title", page number ]
-                // 	[ "First chapter", 5 ],
-                // 	[ "Go to codecanyon.net", "http://codecanyon.net" ] // or [ "title", "url" ]
-                // ]
-            };
-
-            $('#book').wowBook(bookOptions); // create the book
-
-            // How to use wowbook API
-            // var book=$.wowBook("#book"); // get book object instance
-            // book.gotoPage( 4 ); // call some method
-
-        })
-    </script>
-</body>
-</html>
-
-
-<!--
-@{
-    ViewBag.Title = "登入紀錄系統";
-}
-
-<div class="row">
-    <div class="col-md-4 col-md-offset-6">
-        <h2><span style="color:dodgerblue">登入紀錄系統</span></h2>
-    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-2 col-md-offset-5">
-        <img src="~/Image/1.png" />
-    </div>
-</div>
--->
-@*
-        <ul class="pagination" role="navigation">
 
-            <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                <span class="page-link" aria-hidden="true">‹</span>
-            </li>
+<script src="~/js/vendor/jquery-1.11.2.min.js"></script>
+<script src="~/js/helper.js"></script>
+<script src="~/wow_book/wow_book.min.js"></script>
+<!-- <script src="js/main.js"></script> -->
+<script>
+    $(function () {
 
+        var bookOptions = {
+            height: 500
+            , width: 800
+            // ,maxWidth : 800
+            , maxHeight: 600
 
-            @for (int i = 1; i <= ViewBag.pagenum; i++)
-            {
-                if (ViewBag.page == i)
-                {
-                    <li class="page-item active" aria-current="page"><span class="page-link">@i</span></li>
-                }
-                else
-                {
-                    <li class="page-item"><a class="page-link" href="/Home/log?page=@i">@i</a></li>
-                }
+            , centeredWhenClosed: true
+            , hardcovers: true
+            , toolbar: "lastLeft, left, right, lastRight, toc, zoomin, zoomout, slideshow, flipsound, fullscreen, thumbnails, download"
+            , thumbnailsPosition: 'left'
+            , responsiveHandleWidth: 50
 
-            }
+            , container: window
+            , containerPadding: "20px"
+            // ,toolbarContainerPosition: "top" // default "bottom"
 
+            // Uncomment the option toc to create a Table of Contents
+            // ,toc: [                    // table of contents in the format
+            // 	[ "Introduction", 2 ],  // [ "title", page number ]
+            // 	[ "First chapter", 5 ],
+            // 	[ "Go to codecanyon.net", "http://codecanyon.net" ] // or [ "title", "url" ]
+            // ]
+        };
 
-                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                <li class="page-item"><a class="page-link" href="http://140.130.7.204/message?page=2">2</a></li>
+        $('#book').wowBook(bookOptions); // create the book
 
+        // How to use wowbook API
+        // var book=$.wowBook("#book"); // get book object instance
+        // book.gotoPage( 4 ); // call some method
 
-    <li class="page-item">
-        <a class="page-link" href="" rel="next" aria-label="Next »">›</a>
-    </li>
-    </ul>
-*@
+    })
+</script>
