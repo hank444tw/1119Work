@@ -388,6 +388,7 @@
     <Content Include="Views\Shared\_LayoutMember.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\SigninRecord.cshtml" />
+    <Content Include="Views\Home\Book.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

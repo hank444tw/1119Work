@@ -19,6 +19,11 @@ namespace _1119Work.Controllers
             return View("Index");
         }
 
+        public ActionResult Book()
+        {
+            return View("Book");
+        }
+
         public ActionResult SigninRecord(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
