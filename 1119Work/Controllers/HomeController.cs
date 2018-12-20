@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using _1119Work.Models;
 using PagedList;
 using System.Net; //取得IP要用到的
+using System.IO;
 
 namespace _1119Work.Controllers
 {
@@ -118,6 +119,22 @@ namespace _1119Work.Controllers
             return RedirectToAction("ListMember");
         }
 
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(HttpContext.Server.MapPath("~/Image"), fileName);
+                file.SaveAs(path);
+            }
+            return RedirectToAction("Upload");
+        }
 
         public ActionResult Signin()
         {
