@@ -15,10 +15,12 @@ namespace _1119Work.Controllers
         DB40441124Entities3 db = new DB40441124Entities3();
         // GET: Home
         public int pagesize = 5;
+        string fileName;
+
         public ActionResult Index()
         {
-            var member = db.Member.ToList();
-            return View("Index");
+            var book = db.Book.ToList();
+            return View(book);
         }
 
         public ActionResult Book()
@@ -111,10 +113,15 @@ namespace _1119Work.Controllers
                 ViewBag.Message = "帳號已有人使用!";
                 return View();
             }
+            if (file.ContentLength > 0)
+            {
+                fileName = Path.GetExtension(file.FileName); //取得副檔名
+            }
             Book book = new Book();
             book.BookName = BookName;
             book.Author = Author;
             book.Introdution = Introdution;
+            book.DeputyFileName = "5";
             db.Book.Add(book);
             db.SaveChanges();
 
@@ -123,7 +130,6 @@ namespace _1119Work.Controllers
 
             if (file.ContentLength > 0)
             {
-                var fileName = Path.GetExtension(file.FileName);
                 var FolderPath = Server.MapPath("~/Image/" + BookID);
                 if (!Directory.Exists(FolderPath))
                 {
