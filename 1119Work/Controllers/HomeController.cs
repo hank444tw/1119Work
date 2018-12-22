@@ -102,7 +102,7 @@ namespace _1119Work.Controllers
         }*/
 
         [HttpPost]
-        public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name)
+        public ActionResult CreateMember(string Mem_id,string Mem_password, HttpPostedFileBase file)
         {
             var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
             if(test_id != null)
@@ -113,9 +113,19 @@ namespace _1119Work.Controllers
             Member member = new Member();
             member.Mem_id = Mem_id;
             member.Mem_password = Mem_password;
-            member.Mem_name = Mem_name;
             db.Member.Add(member);
             db.SaveChanges();
+
+            var NowData = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            String BookID = NowData.Id.ToString();
+
+            if (file.ContentLength > 0)
+            {
+                var fileName = Path.GetExtension(file.FileName);
+                var path = Path.Combine(HttpContext.Server.MapPath("~/Image"), BookID + fileName);
+                file.SaveAs(path);
+            }
+
             return RedirectToAction("ListMember");
         }
 
