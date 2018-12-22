@@ -17,6 +17,7 @@ namespace _1119Work.Controllers
         public int pagesize = 5;
         public ActionResult Index()
         {
+            var member = db.Member.ToList();
             return View("Index");
         }
 
@@ -102,21 +103,22 @@ namespace _1119Work.Controllers
         }*/
 
         [HttpPost]
-        public ActionResult CreateMember(string Mem_id,string Mem_password, HttpPostedFileBase file)
+        public ActionResult CreateMember(string BookName,string Author,string Introdution,HttpPostedFileBase file)
         {
-            var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
-            if(test_id != null)
+            var test_BookName = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
+            if(test_BookName != null)
             {
                 ViewBag.Message = "帳號已有人使用!";
                 return View();
             }
-            Member member = new Member();
-            member.Mem_id = Mem_id;
-            member.Mem_password = Mem_password;
-            db.Member.Add(member);
+            Book book = new Book();
+            book.BookName = BookName;
+            book.Author = Author;
+            book.Introdution = Introdution;
+            db.Book.Add(book);
             db.SaveChanges();
 
-            var NowData = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            var NowData = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
             String BookID = NowData.Id.ToString();
 
             if (file.ContentLength > 0)

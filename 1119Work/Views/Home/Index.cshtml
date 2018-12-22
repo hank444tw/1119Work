@@ -1,4 +1,6 @@
-﻿@{
+﻿@model  _1119Work.Models.Member
+
+@{
     ViewBag.Title = "電子書線上閱讀系統";
 }
 
@@ -12,9 +14,9 @@
             <div class="caption">
                 <h2>書名</h2>
                 <p>作者</p>
-                @Html.ActionLink("閱讀", "Book",new {@class = "btn btn-success" })
+                @Html.ActionLink("閱讀", "Book", new { @class = "btn btn-success" })
             </div>
-         </div>
+        </div>
     </div>
 
 </div>
