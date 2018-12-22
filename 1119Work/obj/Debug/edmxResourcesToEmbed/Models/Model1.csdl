@@ -22,5 +22,15 @@
   <EntityContainer Name="DB40441124Entities3" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Member" EntityType="Self.Member" />
     <EntitySet Name="MemLog" EntityType="Self.MemLog" />
+    <EntitySet Name="Book" EntityType="DB40441124Model.Book" />
   </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Introdution" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

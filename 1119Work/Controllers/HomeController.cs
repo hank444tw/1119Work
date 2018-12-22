@@ -122,10 +122,15 @@ namespace _1119Work.Controllers
             if (file.ContentLength > 0)
             {
                 var fileName = Path.GetExtension(file.FileName);
-                var path = Path.Combine(HttpContext.Server.MapPath("~/Image"), BookID + fileName);
+                var FolderPath = Server.MapPath("~/Image/" + BookID);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
+                //var path = Path.Combine(HttpContext.Server.MapPath(FolderPath), BookID + fileName);
+                var path = Path.Combine(FolderPath, "0" + fileName);
                 file.SaveAs(path);
             }
-
             return RedirectToAction("ListMember");
         }
 

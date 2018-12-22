@@ -27,5 +27,6 @@ namespace _1119Work.Models
     
         public virtual DbSet<Member> Member { get; set; }
         public virtual DbSet<MemLog> MemLog { get; set; }
+        public virtual DbSet<Book> Book { get; set; }
     }
 }
