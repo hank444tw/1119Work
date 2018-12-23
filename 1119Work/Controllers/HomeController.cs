@@ -25,10 +25,18 @@ namespace _1119Work.Controllers
             return View(Result);
         }
 
-        public ActionResult Book()
+        /*[HttpPost]
+        public ActionResult Index(string Id)
         {
-            Book book = new Book();
-            return View(book);
+            
+            var ChooseBook = db.Book.Where(m => m.Id == Id).FirstOrDefault();
+            return RedirectToAction("Book", ChooseBook);
+        }*/
+
+        public ActionResult Book(int Id)
+        {
+            var ChooseBook = db.Book.Where(m => m.Id == Id).FirstOrDefault();
+            return View(ChooseBook);
         }
 
         public ActionResult SigninRecord(int page = 1)

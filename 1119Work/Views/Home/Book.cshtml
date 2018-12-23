@@ -1,4 +1,4 @@
-﻿
+﻿@model _1119Work.Models.Book
 
 <link rel="stylesheet" href="~/css/normalize.css">
 <link rel="stylesheet" href="~/wow_book/wow_book.css" type="text/css" />
@@ -8,12 +8,12 @@
 <div class='book_container'>
     <div id="book">
         <div>
-            <img src="~/Image/1.png" width="100%" height="100%" />
+            <img src="~/Image/@Html.DisplayFor(Model => Model.Id)/0 @Html.DisplayFor(Model => Model.DeputyFileName)" width="100%" height="100%" />
         </div>
         <div>內頁</div>
         <div>
             第一頁, page 1
-            <img src="pic/cat2.jpg" width="100%" height="100%" />
+            <img src="pic/cat3.jpg" width="100%" height="100%" />
         </div>
         <div data-double='true'>
             可以一次跨2頁, page 2, 3

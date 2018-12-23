@@ -15,6 +15,7 @@
     <EntitySetMapping Name="Member">
       <EntityTypeMapping TypeName="DB40441124Model.Member">
         <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="DeputyFileName" ColumnName="DeputyFileName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
           <ScalarProperty Name="Mem_password" ColumnName="Mem_password" />
