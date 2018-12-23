@@ -78,6 +78,12 @@ namespace _1119Work.Controllers
             return View(member);
         }
 
+        public ActionResult ListBook()
+        {
+            var book = db.Book.ToList();
+            return View(book);
+        }
+
         public ActionResult Edit(int id)
         {
             var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
@@ -100,6 +106,12 @@ namespace _1119Work.Controllers
             db.Member.Remove(todo);
             db.SaveChanges();
             return RedirectToAction("ListMember");
+        }
+
+        public ActionResult EditBook(int id)
+        {
+            var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            return View(todo);
         }
 
         public ActionResult CreateMember()

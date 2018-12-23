@@ -11,27 +11,27 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-4">
-            <div class="thumbnail">
-                <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:150px" />
-                <div class="caption">
-                    <h2>
-                        @Html.DisplayFor(modelItem => item.BookName)
-                    </h2>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </p>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.Introdution)
-                    </p>
-                    @* @Html.ActionLink("閱讀", "Book"d, new { @class = "btn btn-success" }) *@
-                    <a href="/Home/Book?Id=@item.Id" class="btn btn-success">閱讀</a>
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:150px" />
+            <div class="caption">
+                <h2>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </h2>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </p>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Introdution)
+                </p>
+                @* @Html.ActionLink("閱讀", "Book"d, new { @class = "btn btn-success" }) *@
+                <a href="/Home/Book?Id=@item.Id" class="btn btn-success">閱讀</a>
 
-                    @Session["test"] = @item.Id;
+                @Session["test"] = @item.Id;
 
-                </div>
             </div>
         </div>
+    </div>
     }
 </div>
 
