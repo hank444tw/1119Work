@@ -13,10 +13,10 @@ namespace _1119Work.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB40441124Entities3 : DbContext
+    public partial class DB40441124Entities4 : DbContext
     {
-        public DB40441124Entities3()
-            : base("name=DB40441124Entities3")
+        public DB40441124Entities4()
+            : base("name=DB40441124Entities4")
         {
         }
     
@@ -25,8 +25,8 @@ namespace _1119Work.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Member> Member { get; set; }
         public virtual DbSet<MemLog> MemLog { get; set; }
-        public virtual DbSet<Book> Book { get; set; }
     }
 }

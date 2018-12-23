@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="DB40441124ModelStoreContainer" CdmEntityContainer="DB40441124Entities3">
+  <EntityContainerMapping StorageEntityContainer="DB40441124ModelStoreContainer" CdmEntityContainer="DB40441124Entities4">
+    <EntitySetMapping Name="Book">
+      <EntityTypeMapping TypeName="DB40441124Model.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Introdution" ColumnName="Introdution" />
+          <ScalarProperty Name="DeputyFileName" ColumnName="DeputyFileName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Member">
       <EntityTypeMapping TypeName="DB40441124Model.Member">
         <MappingFragment StoreEntitySet="Member">
@@ -19,16 +30,6 @@
           <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
           <ScalarProperty Name="IPAdress" ColumnName="IPAdress" />
           <ScalarProperty Name="Log_date" ColumnName="Log_date" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Book">
-      <EntityTypeMapping TypeName="DB40441124Model.Book">
-        <MappingFragment StoreEntitySet="Book">
-          <ScalarProperty Name="Introdution" ColumnName="Introdution" />
-          <ScalarProperty Name="Author" ColumnName="Author" />
-          <ScalarProperty Name="BookName" ColumnName="BookName" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

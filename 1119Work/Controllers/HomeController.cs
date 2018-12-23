@@ -12,7 +12,7 @@ namespace _1119Work.Controllers
 {
     public class HomeController : Controller
     {
-        DB40441124Entities3 db = new DB40441124Entities3();
+        DB40441124Entities4 db = new DB40441124Entities4();
         // GET: Home
         public int pagesize = 5;
         string fileName;
@@ -121,7 +121,7 @@ namespace _1119Work.Controllers
             book.BookName = BookName;
             book.Author = Author;
             book.Introdution = Introdution;
-            book.DeputyFileName = "5";
+            book.DeputyFileName = fileName;
             db.Book.Add(book);
             db.SaveChanges();
 
@@ -136,7 +136,7 @@ namespace _1119Work.Controllers
                     Directory.CreateDirectory(FolderPath);
                 }
                 //var path = Path.Combine(HttpContext.Server.MapPath(FolderPath), BookID + fileName);
-                var path = Path.Combine(FolderPath, "0" + fileName);
+                var path = Path.Combine(FolderPath, "0 " + fileName);
                 file.SaveAs(path);
             }
             return RedirectToAction("ListMember");

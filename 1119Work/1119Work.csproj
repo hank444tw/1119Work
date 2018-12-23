@@ -153,6 +153,7 @@
     <Content Include="wow_book\sound\page-flip.mp3" />
     <Content Include="wow_book\wow_book.css" />
     <Content Include="wow_book\wow_book.min.js" />
+    <Content Include="js\vendor\jquery-2.1.0.min.map" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -160,7 +161,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="js\vendor\jquery-2.1.0.min.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

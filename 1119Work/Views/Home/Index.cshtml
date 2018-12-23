@@ -1,4 +1,4 @@
-﻿@model IEnumerable<_1119Work.Models.Book>
+﻿@model IEnumerable<_1119Work.Models.Book> 
 
 @{
     ViewBag.Title = "電子書線上閱讀系統";
@@ -9,10 +9,9 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-lg-4">
+        <div class="col-xs-4">
             <div class="thumbnail">
-                <img src="~/Image/1.png" />
-                <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)"/>
+                <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:100px"/>
                 <div class="caption">
                     <h2>
                         @Html.DisplayFor(modelItem => item.BookName)

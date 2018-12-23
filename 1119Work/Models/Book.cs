@@ -18,5 +18,6 @@ namespace _1119Work.Models
         public string BookName { get; set; }
         public string Author { get; set; }
         public string Introdution { get; set; }
+        public string DeputyFileName { get; set; }
     }
 }
