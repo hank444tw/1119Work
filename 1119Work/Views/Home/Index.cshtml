@@ -1,4 +1,6 @@
-﻿@model IEnumerable<_1119Work.Models.Book> 
+﻿@model IPagedList<_1119Work.Models.Book>
+@using PagedList;
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "電子書線上閱讀系統";
@@ -9,9 +11,9 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-xs-4">
+        <div class="col-md-4">
             <div class="thumbnail">
-                <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:100px"/>
+                <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:150px" />
                 <div class="caption">
                     <h2>
                         @Html.DisplayFor(modelItem => item.BookName)
@@ -27,4 +29,20 @@
             </div>
         </div>
     }
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-5">
+        @Html.PagedListPager(Model,page=>Url.Action("Index",new { page }),
+    new PagedListRenderOptions {
+        LinkToFirstPageFormat = "<<",
+        LinkToPreviousPageFormat = "<",
+        LinkToNextPageFormat = ">",
+        LinkToLastPageFormat = ">>",
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always
+    })
+    </div>
 </div>

@@ -14,18 +14,21 @@ namespace _1119Work.Controllers
     {
         DB40441124Entities4 db = new DB40441124Entities4();
         // GET: Home
-        public int pagesize = 5;
+        public int pagesize = 6;
         string fileName;
 
-        public ActionResult Index()
+        public ActionResult Index(int Page = 1)
         {
+            int CurrentPage = Page < 1 ? 1 : Page;
             var book = db.Book.ToList();
-            return View(book);
+            var Result = book.ToPagedList(CurrentPage, pagesize);
+            return View(Result);
         }
 
         public ActionResult Book()
         {
-            return View("Book");
+            Book book = new Book();
+            return View(book);
         }
 
         public ActionResult SigninRecord(int page = 1)
@@ -105,12 +108,55 @@ namespace _1119Work.Controllers
         }*/
 
         [HttpPost]
-        public ActionResult CreateMember(string BookName,string Author,string Introdution,HttpPostedFileBase file)
+        public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name,HttpPostedFileBase file)
         {
-            var test_BookName = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
-            if(test_BookName != null)
+            var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            if(test_id != null)
             {
                 ViewBag.Message = "帳號已有人使用!";
+                return View();
+            }
+            if (file.ContentLength > 0)
+            {
+                fileName = Path.GetExtension(file.FileName); //取得副檔名
+            }
+            Member member = new Member();
+            member.Mem_id = Mem_id;
+            member.Mem_password = Mem_password;
+            member.Mem_name = Mem_name;
+            member.DeputyFileName = fileName;
+            db.Member.Add(member);
+            db.SaveChanges();
+
+            var NowData = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            String MemberID = NowData.Id.ToString();
+
+            if (file.ContentLength > 0)
+            {
+                var FolderPath = Server.MapPath("~/ImageMember/" + MemberID);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
+                //var path = Path.Combine(HttpContext.Server.MapPath(FolderPath), BookID + fileName);
+                var path = Path.Combine(FolderPath, "0 " + fileName);
+                file.SaveAs(path);
+            }
+            return RedirectToAction("ListMember");
+        }
+
+        public ActionResult CreateBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateBook(string BookName, string Author, string Introdution, HttpPostedFileBase file)
+        {
+            var test_BookName = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
+            if (test_BookName != null)
+            {
+                ViewBag.Message = "此書已有人上傳過!!";
                 return View();
             }
             if (file.ContentLength > 0)
@@ -139,7 +185,7 @@ namespace _1119Work.Controllers
                 var path = Path.Combine(FolderPath, "0 " + fileName);
                 file.SaveAs(path);
             }
-            return RedirectToAction("ListMember");
+            return RedirectToAction("CreateBook");
         }
 
         public ActionResult Upload()
