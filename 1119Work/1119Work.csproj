@@ -395,6 +395,7 @@
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\CreateBook.cshtml" />
     <Content Include="Views\Home\ListBook.cshtml" />
+    <Content Include="Views\Home\EditBook.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
