@@ -26,9 +26,6 @@
                 </p>
                 @* @Html.ActionLink("閱讀", "Book"d, new { @class = "btn btn-success" }) *@
                 <a href="/Home/Book?Id=@item.Id" class="btn btn-success">閱讀</a>
-
-                @Session["test"] = @item.Id;
-
             </div>
         </div>
     </div>
