@@ -114,6 +114,17 @@ namespace _1119Work.Controllers
             return View(todo);
         }
 
+        [HttpPost]
+        public ActionResult EditBook(int id,string BookName,string Author,string Introdution)
+        {
+            var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            book.BookName = BookName;
+            book.Author = Author;
+            book.Introdution = Introdution;
+            db.SaveChanges();
+            return RedirectToAction("ListBook");
+        }
+
         public ActionResult CreateMember()
         {
             return View();

@@ -404,6 +404,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ImageInnerPage\" />
     <Folder Include="ImageMember\" />
   </ItemGroup>
   <ItemGroup>
