@@ -1,46 +1,60 @@
 ﻿@model _1119Work.Models.Book
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditBook", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            <label class="control-label col-md-2">書名</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BookName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BookName, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        <label class="control-label col-md-2">書名</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BookName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.BookName, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">作者</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">作者</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">簡短介紹</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Introdution, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Introdution, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">簡短介紹</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Introdution, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Introdution, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="儲存" class="btn btn-default" />
+    <div class="form-group">
+        <label class="control-label col-md-2">繪本封面</label>
+        <div class="col-md-10">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="file" name="file">
+                        <img src="~/Image/@Html.DisplayFor(model => model.Id)/0 @Html.DisplayFor(Model => Model.DeputyFileName)" style="width:200px;height:150px" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="儲存" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 @*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@

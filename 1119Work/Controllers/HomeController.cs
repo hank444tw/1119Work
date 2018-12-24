@@ -115,13 +115,28 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(int id,string BookName,string Author,string Introdution)
+        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file)
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
+
+            if (file.ContentLength > 0)
+            {
+                fileName = Path.GetExtension(file.FileName); //取得上傳圖片副檔名
+            }
+
             book.BookName = BookName;
             book.Author = Author;
             book.Introdution = Introdution;
+            book.DeputyFileName = fileName;
             db.SaveChanges();
+
+            String BookID = id.ToString();
+            if (file.ContentLength > 0)
+            {
+                var FolderPath = Server.MapPath("~/Image/" + BookID);
+                var path = Path.Combine(FolderPath, "0 " + fileName);
+                file.SaveAs(path);
+            }
             return RedirectToAction("ListBook");
         }
 
