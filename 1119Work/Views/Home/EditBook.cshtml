@@ -1,5 +1,7 @@
 ﻿@model _1119Work.Models.Book
 
+<h2>繪本管理</h2>
+
 @using (Html.BeginForm("EditBook", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -41,9 +43,9 @@
                         <div class="col-sm-10">
                             <form id="form1" runat="server">
                                 <input type='file' name="file" id="imgInp" />
-                                <img id="blah" src="#" alt="your image" />
+                                <!--hidden可讓圖片隱藏-->
+                                <img src="~/Image/@Html.DisplayFor(model => model.Id)/0 @Html.DisplayFor(Model => Model.DeputyFileName)" style="width:200px;height:150px" id="blah" alt="your image" />
                             </form>
-                            <!--<img src="~/Image/@Html.DisplayFor(model => model.Id)/0 @Html.DisplayFor(Model => Model.DeputyFileName)" style="width:200px;height:150px" />-->
                         </div>
                     </div>
                 </div>
@@ -71,6 +73,7 @@
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#blah').attr('src', e.target.result);
+                    //$('#blah').show(); //圖片顯示
                 }
                 reader.readAsDataURL(this.files[0]);
             }

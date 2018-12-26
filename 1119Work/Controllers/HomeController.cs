@@ -111,7 +111,6 @@ namespace _1119Work.Controllers
         [HttpGet]
         public ActionResult EditBook(int id)
         {
-            BookImageModel vm = new BookImageModel();
             var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
             return View(todo);
         }
