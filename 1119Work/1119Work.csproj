@@ -349,6 +349,7 @@
     <Compile Include="Models\Book.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookImageModel.cs" />
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\Class2.cs" />
     <Compile Include="Models\JoinLog.cs" />

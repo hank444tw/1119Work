@@ -108,8 +108,10 @@ namespace _1119Work.Controllers
             return RedirectToAction("ListMember");
         }
 
+        [HttpGet]
         public ActionResult EditBook(int id)
         {
+            BookImageModel vm = new BookImageModel();
             var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
             return View(todo);
         }
@@ -231,7 +233,7 @@ namespace _1119Work.Controllers
                 var path = Path.Combine(FolderPath, "0 " + fileName);
                 file.SaveAs(path);
             }
-            return RedirectToAction("CreateBook");
+            return RedirectToAction("ListBook");
         }
 
         public ActionResult Upload()
