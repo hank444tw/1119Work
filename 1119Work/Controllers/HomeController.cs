@@ -108,6 +108,24 @@ namespace _1119Work.Controllers
             return RedirectToAction("ListMember");
         }
 
+        public ActionResult DeleteBook(int id)
+        {
+            var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            db.Book.Remove(todo);
+            db.SaveChanges();
+
+            string fid = id.ToString();
+            string fname = todo.DeputyFileName;
+            var FolderPath = Server.MapPath("~/Image/" + fid);
+            if(fname == ".jpg")
+            {
+                var path = Path.Combine(FolderPath, "0 " + fname);
+            }
+
+            Directory.Delete(FolderPath);
+            return RedirectToAction("ListBook");
+        }
+
         [HttpGet]
         public ActionResult EditBook(int id)
         {
@@ -124,6 +142,11 @@ namespace _1119Work.Controllers
             {
                 fileName = Path.GetExtension(file.FileName); //取得上傳圖片副檔名
             }
+            String BookID = id.ToString();
+            var FolderPath2 = Server.MapPath("~/Image/" + BookID);
+            var path2 = Path.Combine(FolderPath2, "0 " + book.DeputyFileName);
+            System.IO.File.Delete(path2);
+
 
             book.BookName = BookName;
             book.Author = Author;
@@ -131,7 +154,7 @@ namespace _1119Work.Controllers
             book.DeputyFileName = fileName;
             db.SaveChanges();
 
-            String BookID = id.ToString();
+            
             if (file.ContentLength > 0)
             {
                 var FolderPath = Server.MapPath("~/Image/" + BookID);
