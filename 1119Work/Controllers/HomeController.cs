@@ -110,19 +110,16 @@ namespace _1119Work.Controllers
 
         public ActionResult DeleteBook(int id)
         {
-            var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
-            db.Book.Remove(todo);
+            var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
+
+            String BookID = id.ToString();
+            var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
+            var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //圖片檔案位置
+            System.IO.File.Delete(path); //刪除圖片檔案
+            Directory.Delete(FolderPath); //刪除圖片資料夾
+
+            db.Book.Remove(book);
             db.SaveChanges();
-
-            string fid = id.ToString();
-            string fname = todo.DeputyFileName;
-            var FolderPath = Server.MapPath("~/Image/" + fid);
-            if(fname == ".jpg")
-            {
-                var path = Path.Combine(FolderPath, "0 " + fname);
-            }
-
-            Directory.Delete(FolderPath);
             return RedirectToAction("ListBook");
         }
 
@@ -138,29 +135,25 @@ namespace _1119Work.Controllers
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
 
-            if (file.ContentLength > 0)
+            //if (file.ContentLength > 0) //判斷檔案大小
+            if (file != null) //判斷有無再上傳圖片
             {
+                String BookID = id.ToString();
+                var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
+                var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //原圖片檔案位置
+                System.IO.File.Delete(path); //刪除原圖
+
                 fileName = Path.GetExtension(file.FileName); //取得上傳圖片副檔名
+                var path2 = Path.Combine(FolderPath, "0 " + fileName);
+                file.SaveAs(path2);
+                book.DeputyFileName = fileName; //資料表副檔名欄位更改
             }
-            String BookID = id.ToString();
-            var FolderPath2 = Server.MapPath("~/Image/" + BookID);
-            var path2 = Path.Combine(FolderPath2, "0 " + book.DeputyFileName);
-            System.IO.File.Delete(path2);
 
-
-            book.BookName = BookName;
+            book.BookName = BookName;  
             book.Author = Author;
             book.Introdution = Introdution;
-            book.DeputyFileName = fileName;
             db.SaveChanges();
 
-            
-            if (file.ContentLength > 0)
-            {
-                var FolderPath = Server.MapPath("~/Image/" + BookID);
-                var path = Path.Combine(FolderPath, "0 " + fileName);
-                file.SaveAs(path);
-            }
             return RedirectToAction("ListBook");
         }
 
