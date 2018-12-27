@@ -38,8 +38,11 @@
             @Html.DisplayFor(modelItem => item.Introdution)
         </td>
         <td>
-            @Html.ActionLink("繪本管理", "EditBook", new { id = item.Id }, new {@class = "btn btn-success" })
-            @Html.ActionLink("刪除", "DeleteBook", new { id = item.Id }, new { @class = "btn btn-danger" })
+            @if ((int)Session["MemberID"] == item.MemberID) //判斷是否為該會員所上傳的繪本
+            {
+                @Html.ActionLink("繪本管理", "EditBook", new { id = item.Id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("刪除", "DeleteBook", new { id = item.Id }, new { @class = "btn btn-danger" })
+            }
         </td>
     </tr>
 }

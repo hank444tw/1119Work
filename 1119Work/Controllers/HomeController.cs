@@ -14,7 +14,7 @@ namespace _1119Work.Controllers
     {
         DB40441124Entities4 db = new DB40441124Entities4();
         // GET: Home
-        public int pagesize = 6;
+        public int pagesize = 6; //要顯示的資料數量
         string fileName;
 
         public ActionResult Index(int Page = 1)
@@ -74,7 +74,6 @@ namespace _1119Work.Controllers
             /*List<Member> member = new List<Member>();
             member = db.Member.ToList();*/
             var member = db.Member.ToList();
-
             return View(member);
         }
 
@@ -123,7 +122,6 @@ namespace _1119Work.Controllers
             return RedirectToAction("ListBook");
         }
 
-        [HttpGet]
         public ActionResult EditBook(int id)
         {
             var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
@@ -285,7 +283,7 @@ namespace _1119Work.Controllers
             else
             {
                 Session["Welcome"] = member.Mem_name + " 你好!";
-                Session["member"] = member;
+                Session["MemberID"] = member.Id; //紀錄該登入會員ID
 
                 string ip = GetClientIP();
 
@@ -308,7 +306,7 @@ namespace _1119Work.Controllers
 
         public ActionResult SignOut()
         {
-            Session["Member"] = null;
+            Session["MemberID"] = null;
             return RedirectToAction("Index");
         }
 

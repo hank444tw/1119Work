@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="84a9626d4bae472983c944575db312ae" Name="Diagram1">
-        <EntityTypeShape EntityType="DB40441124Model.Book" Width="1.5" PointX="5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB40441124Model.Book" Width="1.5" PointX="4.875" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB40441124Model.Member" Width="1.5" PointX="2.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB40441124Model.MemLog" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
       </Diagram>

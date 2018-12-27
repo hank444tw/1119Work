@@ -9,6 +9,7 @@
     <Property Name="Author" Type="nvarchar" MaxLength="50" />
     <Property Name="Introdution" Type="nvarchar" MaxLength="50" />
     <Property Name="DeputyFileName" Type="nchar" MaxLength="10" />
+    <Property Name="MemberID" Type="int" />
   </EntityType>
   <EntityType Name="Member">
     <Key>
