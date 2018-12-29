@@ -6,14 +6,13 @@ using System.Web.Mvc;
 using _1119Work.Models;
 using PagedList;
 using System.Net; //取得IP要用到的
-using System.IO;
+using System.IO;  //儲存、刪除本機資料要用到
 
 namespace _1119Work.Controllers
 {
     public class HomeController : Controller
     {
         DB40441124Entities4 db = new DB40441124Entities4();
-        // GET: Home
         public int pagesize = 6; //要顯示的資料數量
         string fileName;
 
@@ -24,14 +23,6 @@ namespace _1119Work.Controllers
             var Result = book.ToPagedList(CurrentPage, pagesize);
             return View(Result);
         }
-
-        /*[HttpPost]
-        public ActionResult Index(string Id)
-        {
-            
-            var ChooseBook = db.Book.Where(m => m.Id == Id).FirstOrDefault();
-            return RedirectToAction("Book", ChooseBook);
-        }*/
 
         public ActionResult Book(int Id)
         {
@@ -71,8 +62,6 @@ namespace _1119Work.Controllers
 
         public ActionResult ListMember()
         {
-            /*List<Member> member = new List<Member>();
-            member = db.Member.ToList();*/
             var member = db.Member.ToList();
             return View(member);
         }
@@ -83,7 +72,7 @@ namespace _1119Work.Controllers
             return View(book);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id) //修改會員資料
         {
             var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
             return View(todo);
@@ -99,7 +88,7 @@ namespace _1119Work.Controllers
             return RedirectToAction("ListMember");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id) //刪除會員資料
         {
             var todo = db.Member.Where(m => m.Id == id).FirstOrDefault();
             db.Member.Remove(todo);
@@ -172,35 +161,36 @@ namespace _1119Work.Controllers
         public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name,HttpPostedFileBase file)
         {
             var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
-            if(test_id != null)
+            if(test_id != null) //判斷帳號是否已使用過
             {
                 ViewBag.Message = "帳號已有人使用!";
                 return View();
             }
-            if (file.ContentLength > 0)
+
+            Member member = new Member();
+
+            if (file != null) //判斷有無上傳大頭照
             {
                 fileName = Path.GetExtension(file.FileName); //取得副檔名
+                member.DeputyFileName = fileName; //副檔名存進資料表
             }
-            Member member = new Member();
             member.Mem_id = Mem_id;
             member.Mem_password = Mem_password;
             member.Mem_name = Mem_name;
-            member.DeputyFileName = fileName;
             db.Member.Add(member);
             db.SaveChanges();
 
             var NowData = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
             String MemberID = NowData.Id.ToString();
 
-            if (file.ContentLength > 0)
+            if (file != null)
             {
-                var FolderPath = Server.MapPath("~/ImageMember/" + MemberID);
-                if (!Directory.Exists(FolderPath))
+                var FolderPath = Server.MapPath("~/ImageMember/" + MemberID); //資料夾的路徑及檔名
+                if (!Directory.Exists(FolderPath)) //判斷此資料夾是否存在
                 {
-                    Directory.CreateDirectory(FolderPath);
+                    Directory.CreateDirectory(FolderPath); //創建資料夾
                 }
-                //var path = Path.Combine(HttpContext.Server.MapPath(FolderPath), BookID + fileName);
-                var path = Path.Combine(FolderPath, "0 " + fileName);
+                var path = Path.Combine(FolderPath, "0 " + fileName); //要儲存圖片的路徑及檔名
                 file.SaveAs(path);
             }
             return RedirectToAction("ListMember");
