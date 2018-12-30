@@ -118,7 +118,7 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file)
+        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file, FormCollection form)
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
 
@@ -141,7 +141,49 @@ namespace _1119Work.Controllers
             book.Introdution = Introdution;
             db.SaveChanges();
 
+            foreach (string item in Request.Files)
+            {
+                HttpPostedFileBase file5 = Request.Files[item] as HttpPostedFileBase;
+                if (file5 == null || file5.ContentLength == 0)
+                    continue;
+                //判断Upload文件夹是否存在，不存在就创建
+                string path5 = Server.MapPath("~/Upload");
+                if (!System.IO.Directory.Exists(path5))
+                {
+                    System.IO.Directory.CreateDirectory(path5);
+                }
+                path5 = AppDomain.CurrentDomain.BaseDirectory + "Upload/";
+                //获取上传的文件名   
+                string fileName = file5.FileName;
+                //上传      
+                file5.SaveAs(Path.Combine(path5, fileName));
+            }
+            //return Content("<script>alert('上传文件成功');window.history.back();</script>");
+
             return RedirectToAction("ListBook");
+        }
+
+        [HttpPost]
+        public ActionResult Test(FormCollection form)
+        {
+            foreach (string item in Request.Files)
+            {
+                HttpPostedFileBase file = Request.Files[item] as HttpPostedFileBase;
+                if (file == null || file.ContentLength == 0)
+                    continue;
+                //判断Upload文件夹是否存在，不存在就创建
+                string path = Server.MapPath("..//Upload");
+                if (!System.IO.Directory.Exists(path))
+                {
+                    System.IO.Directory.CreateDirectory(path);
+                }
+                path = AppDomain.CurrentDomain.BaseDirectory + "Upload/";
+                //获取上传的文件名   
+                string fileName = file.FileName;
+                //上传      
+                file.SaveAs(Path.Combine(path, fileName));
+            }
+            return Content("<script>alert('上传文件成功');window.history.back();</script>");
         }
 
         public ActionResult CreateMember()
