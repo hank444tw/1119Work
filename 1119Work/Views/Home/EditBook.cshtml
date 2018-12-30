@@ -60,6 +60,43 @@
     </div>
 }
 
+<form action="/home/%%%%" enctype="multipart/form-data" method="post">
+    <div id="FileList">
+        <div>
+            <input type="file" id="file" name="file0" oninput="AddFile();" />
+        </div>
+    </div>
+
+    <p>
+        <input type="submit" value="上传" />
+    </p>
+</form>
+<script>
+    var index = 1;
+    function AddFile() {
+        var ul = document.getElementById("FileList");
+        var inputDiv = document.createElement("div");
+        inputDiv.setAttribute("Id", "div" + index);
+        var file = document.createElement("input");
+        file.setAttribute("type", "file");
+        file.setAttribute("id", "file" + index);
+        file.setAttribute("name", "file" + index);
+        file.setAttribute("oninput", "AddFile();");
+        var btnDel = document.createElement("input");
+        btnDel.setAttribute("type", "button");
+        btnDel.setAttribute("value", "删除");
+        btnDel.setAttribute("Id", index);
+        btnDel.onclick = function () {
+            inputDiv.removeChild(file);
+            inputDiv.removeChild(btnDel);
+            ul.removeChild(inputDiv);
+        }
+        inputDiv.appendChild(file);
+        inputDiv.appendChild(btnDel);
+        ul.appendChild(inputDiv);
+        index++;
+    }
+</script>
 
 @*<div>
         @Html.ActionLink("Back to List", "Index")

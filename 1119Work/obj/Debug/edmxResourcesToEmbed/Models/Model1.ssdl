@@ -11,6 +11,16 @@
     <Property Name="DeputyFileName" Type="nchar" MaxLength="10" />
     <Property Name="MemberID" Type="int" />
   </EntityType>
+  <EntityType Name="InnerPage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookID" Type="int" />
+    <Property Name="PageAmount" Type="int" />
+    <Property Name="Page" Type="int" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Member">
     <Key>
       <PropertyRef Name="Id" />
@@ -33,6 +43,7 @@
   </EntityType>
   <EntityContainer Name="DB40441124ModelStoreContainer">
     <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InnerPage" EntityType="Self.InnerPage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MemLog" EntityType="Self.MemLog" Schema="dbo" store:Type="Tables" />
   </EntityContainer>

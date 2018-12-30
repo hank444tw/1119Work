@@ -351,6 +351,9 @@
     </Compile>
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\Class2.cs" />
+    <Compile Include="Models\InnerPage.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JoinLog.cs" />
     <Compile Include="Models\Member.cs">
       <DependentUpon>Model1.tt</DependentUpon>

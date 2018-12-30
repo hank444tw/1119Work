@@ -35,5 +35,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="InnerPage">
+      <EntityTypeMapping TypeName="DB40441124Model.InnerPage">
+        <MappingFragment StoreEntitySet="InnerPage">
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="Page" ColumnName="Page" />
+          <ScalarProperty Name="PageAmount" ColumnName="PageAmount" />
+          <ScalarProperty Name="BookID" ColumnName="BookID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

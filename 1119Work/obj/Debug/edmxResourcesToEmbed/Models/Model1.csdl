@@ -35,5 +35,16 @@
     <EntitySet Name="Book" EntityType="Self.Book" />
     <EntitySet Name="Member" EntityType="Self.Member" />
     <EntitySet Name="MemLog" EntityType="Self.MemLog" />
+    <EntitySet Name="InnerPage" EntityType="DB40441124Model.InnerPage" />
   </EntityContainer>
+  <EntityType Name="InnerPage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookID" Type="Int32" />
+    <Property Name="PageAmount" Type="Int32" />
+    <Property Name="Page" Type="Int32" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>
