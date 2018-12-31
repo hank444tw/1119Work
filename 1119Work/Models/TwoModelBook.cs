@@ -5,9 +5,9 @@ using System.Web;
 
 namespace _1119Work.Models
 {
-    public class Class2
+    public class TwoModelBook
     {
-        public List<Member> members { get; set; }
-        public List<MemLog> memLogs { get; set; }
+        public Book Book { get; set; }
+        public List<InnerPage> InnerPage { get; set; }
     }
 }

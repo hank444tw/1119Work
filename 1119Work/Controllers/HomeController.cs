@@ -26,8 +26,34 @@ namespace _1119Work.Controllers
 
         public ActionResult Book(int Id)
         {
-            var ChooseBook = db.Book.Where(m => m.Id == Id).FirstOrDefault();
-            return View(ChooseBook);
+            TwoModelBook twomodelbook = new TwoModelBook();
+            twomodelbook.Book = db.Book.Where(m => m.Id == Id).FirstOrDefault();
+            twomodelbook.InnerPage = db.InnerPage.Where(m => m.BookID == Id).OrderBy(m => m.Page).ToList();
+
+            /*var BookData = (from d1 in db.Book
+                            join d2 in db.InnerPage
+                            on d1.Id equals d2.BookID
+                            select new
+                            {
+                                d1.Id,
+                                d1.BookName,
+                                d1.DeputyFileName,
+                                d1.MemberID,
+                                d2.ImageName,
+                                d2.Page
+                            }).Where(m => m.Id == Id).OrderBy(m => m.Page).ToList();
+            List<JoinBook> joinbook = new List<JoinBook>();
+            foreach(var item in BookData)
+            {
+                joinbook.Add(new JoinBook
+                {
+                    Id = item.Id,
+                    DeputyFileName = item.DeputyFileName,
+                    Page = item.Page,
+                    ImageName = item.ImageName
+                });
+            }*/
+            return View(twomodelbook);
         }
 
         public ActionResult SigninRecord(int page = 1)
@@ -118,21 +144,21 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file, FormCollection form)
+        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file5, FormCollection form)
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            String BookID = id.ToString(); //id轉字串
 
             //if (file.ContentLength > 0) //判斷檔案大小
-            if (file != null) //判斷有無再上傳圖片
+            if (file5 != null) //判斷有無再上傳圖片
             {
-                String BookID = id.ToString();
                 var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
                 var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //原圖片檔案位置
                 System.IO.File.Delete(path); //刪除原圖
 
-                fileName = Path.GetExtension(file.FileName); //取得上傳圖片副檔名
+                fileName = Path.GetExtension(file5.FileName); //取得上傳圖片副檔名
                 var path2 = Path.Combine(FolderPath, "0 " + fileName);
-                file.SaveAs(path2);
+                file5.SaveAs(path2);
                 book.DeputyFileName = fileName; //資料表副檔名欄位更改
             }
 
@@ -141,26 +167,50 @@ namespace _1119Work.Controllers
             book.Introdution = Introdution;
             db.SaveChanges();
 
-            foreach (string item in Request.Files)
+            ////////////內頁圖片//////////////
+            int BeforePageAmount = db.InnerPage.Where(m => m.BookID == id).ToList().Count();
+            //int NowPageAmount = (int)Session["UploadAmount"] + BeforePageAmount;
+            //if (form != null)
             {
-                HttpPostedFileBase file5 = Request.Files[item] as HttpPostedFileBase;
-                if (file5 == null || file5.ContentLength == 0)
-                    continue;
-                //判断Upload文件夹是否存在，不存在就创建
-                string path5 = Server.MapPath("~/Upload");
-                if (!System.IO.Directory.Exists(path5))
+                InnerPage innerpage = new InnerPage();
+                foreach (string item in Request.Files)
                 {
-                    System.IO.Directory.CreateDirectory(path5);
-                }
-                path5 = AppDomain.CurrentDomain.BaseDirectory + "Upload/";
-                //获取上传的文件名   
-                string fileName = file5.FileName;
-                //上传      
-                file5.SaveAs(Path.Combine(path5, fileName));
-            }
-            //return Content("<script>alert('上传文件成功');window.history.back();</script>");
+                    HttpPostedFileBase fileimage = Request.Files[item] as HttpPostedFileBase;
+                    if (fileimage == null || fileimage.ContentLength == 0)
+                        continue;
+                    if(file5 != null)
+                    {
+                        if (fileimage.FileName == file5.FileName && fileimage.ContentLength == file5.ContentLength)
+                            continue;
+                    }
+                    string pathimage = Server.MapPath("~/Image/" + BookID);
+                    if (!System.IO.Directory.Exists(pathimage)) //判斷資料夾是否存在，否的話就創建一個新的
+                    {
+                        System.IO.Directory.CreateDirectory(pathimage);
+                    }
+                    pathimage = AppDomain.CurrentDomain.BaseDirectory + "Image/" + BookID;
+                    //string fileName = fileimage.FileName; //獲取上傳的檔名
+                    string fileName = GetRandomStringByGuid();
+                    fileimage.SaveAs(Path.Combine(pathimage, fileName + " .png"));
 
+                    BeforePageAmount++;
+
+                    innerpage.BookID = id;
+                    //innerpage.PageAmount = NowPageAmount;
+                    innerpage.Page = BeforePageAmount;
+                    innerpage.ImageName = fileName;
+                    db.InnerPage.Add(innerpage);
+                    db.SaveChanges();
+                }
+                //return Content("<script>alert('上传文件成功');window.history.back();</script>");
+            }
             return RedirectToAction("ListBook");
+        }
+
+        public static string GetRandomStringByGuid()  //使用Guid產生亂碼
+        {
+            var str = Guid.NewGuid().ToString().Replace("-", ""); //將"-"字號去掉
+            return str;
         }
 
         [HttpPost]
@@ -261,6 +311,7 @@ namespace _1119Work.Controllers
             book.Author = Author;
             book.Introdution = Introdution;
             book.DeputyFileName = fileName;
+            book.MemberID = (int)Session["MemberID"];
             db.Book.Add(book);
             db.SaveChanges();
 

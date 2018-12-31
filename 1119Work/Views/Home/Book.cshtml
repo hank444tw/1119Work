@@ -1,73 +1,81 @@
-﻿@model _1119Work.Models.Book
+﻿@*model IEnumerable<_1119Work.Models.InnerPage>*@
+@model _1119Work.Models.TwoModelBook
 
-<link rel="stylesheet" href="~/css/normalize.css">
-<link rel="stylesheet" href="~/wow_book/wow_book.css" type="text/css" />
-<link rel="stylesheet" href="~/css/main.css">
-<script src="~/js/vendor/modernizr-2.7.1.min.js"></script>
 
-<div class='book_container'>
-    <div id="book">
-        <div>
-            <img src="~/Image/@Html.DisplayFor(Model => Model.Id)/0 @Html.DisplayFor(Model => Model.DeputyFileName)" width="100%" height="100%" />
-        </div>
-        <div>內頁</div>
-        <div>
-            第一頁, page 1
-            <img src="pic/cat3.jpg" width="100%" height="100%" />
-        </div>
-        <div data-double='true'>
-            可以一次跨2頁, page 2, 3
-            <img src="pic/cat3.jpg" width="100%" height="100%" />
-        </div>
-        <div>
-            page 4
-            <img src="pic/cat4.jpg" width="100%" height="100%" />
-        </div>
-        <div>書背內頁</div>
-        <div>
-            書背封面
-            <img src="pic/cat1.jpg" width="100%" height="100%" />
+    <link rel="stylesheet" href="~/css/normalize.css">
+    <link rel="stylesheet" href="~/wow_book/wow_book.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/main.css">
+    <script src="~/js/vendor/modernizr-2.7.1.min.js"></script>
+
+    <div class='book_container'>
+        <div id="book">
+            <div>
+                @*<img src="~/Image/@Html.DisplayFor(Model => Model.FirstOrDefault().Id)/0 @Html.DisplayFor(Model => Model.FirstOrDefault().DeputyFileName)" width="100%" height="100%" />*@
+                <img src="~/Image/@Html.DisplayFor(Model => Model.Book.Id)/0 @Html.DisplayFor(Model => Model.Book.DeputyFileName)" width="100%" height="100%" />
+            </div>
+            <div>內頁</div>
+            @foreach (var item in Model.InnerPage)
+            {
+                <div>
+                    <img src="~/Image/@Html.DisplayFor(m => item.BookID)/@Html.DisplayFor(m => item.ImageName) .png" width="100%" height="100%" />
+                </div>
+                /*<div>
+                    第一頁, page 1
+                    <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/@Html.DisplayFor(modelItem => item.ImageName) .png" width="100%" height="100%" />
+                </div>
+                /*<div data-double='true'>
+                    可以一次跨2頁, page 2, 3
+                    <img src="pic/cat3.jpg" width="100%" height="100%" />
+                </div>
+                <div>
+                    page 4
+                    <img src="pic/cat4.jpg" width="100%" height="100%" />
+                </div>
+                <div>書背內頁</div>
+                <div>
+                    書背封面
+                    <img src="pic/cat1.jpg" width="100%" height="100%" />
+                </div>*/
+            }
         </div>
     </div>
-</div>
 
+    <script src="~/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="~/js/helper.js"></script>
+    <script src="~/wow_book/wow_book.min.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script>
+        $(function () {
 
-<script src="~/js/vendor/jquery-1.11.2.min.js"></script>
-<script src="~/js/helper.js"></script>
-<script src="~/wow_book/wow_book.min.js"></script>
-<!-- <script src="js/main.js"></script> -->
-<script>
-    $(function () {
+            var bookOptions = {
+                height: 500
+                , width: 800
+                // ,maxWidth : 800
+                , maxHeight: 600
 
-        var bookOptions = {
-            height: 500
-            , width: 800
-            // ,maxWidth : 800
-            , maxHeight: 600
+                , centeredWhenClosed: true
+                , hardcovers: true
+                , toolbar: "lastLeft, left, right, lastRight, toc, zoomin, zoomout, slideshow, flipsound, fullscreen, thumbnails, download"
+                , thumbnailsPosition: 'left'
+                , responsiveHandleWidth: 50
 
-            , centeredWhenClosed: true
-            , hardcovers: true
-            , toolbar: "lastLeft, left, right, lastRight, toc, zoomin, zoomout, slideshow, flipsound, fullscreen, thumbnails, download"
-            , thumbnailsPosition: 'left'
-            , responsiveHandleWidth: 50
+                , container: window
+                , containerPadding: "20px"
+                // ,toolbarContainerPosition: "top" // default "bottom"
 
-            , container: window
-            , containerPadding: "20px"
-            // ,toolbarContainerPosition: "top" // default "bottom"
+                // Uncomment the option toc to create a Table of Contents
+                // ,toc: [                    // table of contents in the format
+                // 	[ "Introduction", 2 ],  // [ "title", page number ]
+                // 	[ "First chapter", 5 ],
+                // 	[ "Go to codecanyon.net", "http://codecanyon.net" ] // or [ "title", "url" ]
+                // ]
+            };
 
-            // Uncomment the option toc to create a Table of Contents
-            // ,toc: [                    // table of contents in the format
-            // 	[ "Introduction", 2 ],  // [ "title", page number ]
-            // 	[ "First chapter", 5 ],
-            // 	[ "Go to codecanyon.net", "http://codecanyon.net" ] // or [ "title", "url" ]
-            // ]
-        };
+            $('#book').wowBook(bookOptions); // create the book
 
-        $('#book').wowBook(bookOptions); // create the book
+            // How to use wowbook API
+            // var book=$.wowBook("#book"); // get book object instance
+            // book.gotoPage( 4 ); // call some method
 
-        // How to use wowbook API
-        // var book=$.wowBook("#book"); // get book object instance
-        // book.gotoPage( 4 ); // call some method
-
-    })
-</script>
+        })
+    </script>
