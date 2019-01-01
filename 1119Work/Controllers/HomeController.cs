@@ -149,8 +149,7 @@ namespace _1119Work.Controllers
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
             String BookID = id.ToString(); //id轉字串
 
-            //if (file.ContentLength > 0) //判斷檔案大小
-            if (file5 != null) //判斷有無再上傳圖片
+            if (file5 != null) //判斷有無再上傳封面圖片
             {
                 var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
                 var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //原圖片檔案位置
@@ -167,18 +166,16 @@ namespace _1119Work.Controllers
             book.Introdution = Introdution;
             db.SaveChanges();
 
-            ////////////內頁圖片//////////////
-            int BeforePageAmount = db.InnerPage.Where(m => m.BookID == id).ToList().Count();
+            //---------------內頁圖片------------------
+            int BeforePageAmount = db.InnerPage.Where(m => m.BookID == id).ToList().Count(); //繪本之前內頁圖片的數量
             //int NowPageAmount = (int)Session["UploadAmount"] + BeforePageAmount;
-            //if (form != null)
-            {
                 InnerPage innerpage = new InnerPage();
                 foreach (string item in Request.Files)
                 {
                     HttpPostedFileBase fileimage = Request.Files[item] as HttpPostedFileBase;
-                    if (fileimage == null || fileimage.ContentLength == 0)
+                    if (fileimage == null || fileimage.ContentLength == 0) //判斷檔案是否為空的
                         continue;
-                    if(file5 != null)
+                    if(file5 != null) //判斷是否有上傳封面圖片，有的話則比對是不是和封面圖片一樣，是的話就忽略此圖片
                     {
                         if (fileimage.FileName == file5.FileName && fileimage.ContentLength == file5.ContentLength)
                             continue;
@@ -201,9 +198,8 @@ namespace _1119Work.Controllers
                     innerpage.ImageName = fileName;
                     db.InnerPage.Add(innerpage);
                     db.SaveChanges();
-                }
                 //return Content("<script>alert('上传文件成功');window.history.back();</script>");
-            }
+                }
             return RedirectToAction("ListBook");
         }
 
@@ -213,41 +209,10 @@ namespace _1119Work.Controllers
             return str;
         }
 
-        [HttpPost]
-        public ActionResult Test(FormCollection form)
-        {
-            foreach (string item in Request.Files)
-            {
-                HttpPostedFileBase file = Request.Files[item] as HttpPostedFileBase;
-                if (file == null || file.ContentLength == 0)
-                    continue;
-                //判断Upload文件夹是否存在，不存在就创建
-                string path = Server.MapPath("..//Upload");
-                if (!System.IO.Directory.Exists(path))
-                {
-                    System.IO.Directory.CreateDirectory(path);
-                }
-                path = AppDomain.CurrentDomain.BaseDirectory + "Upload/";
-                //获取上传的文件名   
-                string fileName = file.FileName;
-                //上传      
-                file.SaveAs(Path.Combine(path, fileName));
-            }
-            return Content("<script>alert('上传文件成功');window.history.back();</script>");
-        }
-
         public ActionResult CreateMember()
         {
             return View();
         }
-
-        /*[HttpPost] 
-        public ActionResult CreateMember(Member member) 也行
-        {
-            db.Member.Add(member);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }*/
 
         [HttpPost]
         public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name,HttpPostedFileBase file)
