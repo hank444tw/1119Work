@@ -139,15 +139,22 @@ namespace _1119Work.Controllers
 
         public ActionResult EditBook(int id)
         {
-            var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            TwoModelBook todo = new TwoModelBook()
+            {
+                Book = db.Book.Where(m => m.Id == id).FirstOrDefault(),
+                InnerPage = db.InnerPage.Where(m => m.BookID == id).OrderBy(m => m.Page).ToList()
+            };
+            /*todo.Book = db.Book.Where(m => m.Id == id).FirstOrDefault();
+            todo.InnerPage = db.InnerPage.Where(m => m.BookID == id).OrderBy(m => m.Page).ToList();*/
+            //var todo = db.Book.Where(m => m.Id == id).FirstOrDefault();
             return View(todo);
         }
 
         [HttpPost]
-        public ActionResult EditBook(int id,string BookName,string Author,string Introdution, HttpPostedFileBase file5, FormCollection form)
+        public ActionResult EditBook(int Id,string BookName,string Author,string Introdution, HttpPostedFileBase file5, FormCollection form)
         {
-            var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
-            String BookID = id.ToString(); //id轉字串
+            var book = db.Book.Where(m => m.Id == Id).FirstOrDefault();
+            String BookID = Id.ToString(); //id轉字串
             
             if (file5 != null) //判斷有無再上傳封面圖片
             {
@@ -167,7 +174,7 @@ namespace _1119Work.Controllers
             db.SaveChanges();
            
             //---------------內頁圖片------------------
-            int BeforePageAmount = db.InnerPage.Where(m => m.BookID == id).ToList().Count(); //繪本之前內頁圖片的數量
+            int BeforePageAmount = db.InnerPage.Where(m => m.BookID == Id).ToList().Count(); //繪本之前內頁圖片的數量
             bool Check = false; 
             //int NowPageAmount = (int)Session["UploadAmount"] + BeforePageAmount;
                 InnerPage innerpage = new InnerPage();
@@ -199,7 +206,7 @@ namespace _1119Work.Controllers
 
                     BeforePageAmount++;
 
-                    innerpage.BookID = id;
+                    innerpage.BookID = Id;
                     //innerpage.PageAmount = NowPageAmount;
                     innerpage.Page = BeforePageAmount;
                     innerpage.ImageName = fileName;
