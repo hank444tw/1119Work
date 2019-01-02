@@ -148,7 +148,7 @@ namespace _1119Work.Controllers
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
             String BookID = id.ToString(); //id轉字串
-
+            
             if (file5 != null) //判斷有無再上傳封面圖片
             {
                 var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
@@ -165,20 +165,27 @@ namespace _1119Work.Controllers
             book.Author = Author;
             book.Introdution = Introdution;
             db.SaveChanges();
-
+           
             //---------------內頁圖片------------------
             int BeforePageAmount = db.InnerPage.Where(m => m.BookID == id).ToList().Count(); //繪本之前內頁圖片的數量
+            bool Check = false; 
             //int NowPageAmount = (int)Session["UploadAmount"] + BeforePageAmount;
                 InnerPage innerpage = new InnerPage();
                 foreach (string item in Request.Files)
                 {
                     HttpPostedFileBase fileimage = Request.Files[item] as HttpPostedFileBase;
+                    
                     if (fileimage == null || fileimage.ContentLength == 0) //判斷檔案是否為空的
                         continue;
-                    if(file5 != null) //判斷是否有上傳封面圖片，有的話則比對是不是和封面圖片一樣，是的話就忽略此圖片
+
+                    //判斷是否有上傳封面圖片，有的話則比對是不是和封面圖片一樣，是的話就忽略此圖片，如果已忽略過一次，便不執行
+                    if (file5 != null && !Check) 
                     {
                         if (fileimage.FileName == file5.FileName && fileimage.ContentLength == file5.ContentLength)
+                        {
+                            Check = true;
                             continue;
+                        }     
                     }
                     string pathimage = Server.MapPath("~/Image/" + BookID);
                     if (!System.IO.Directory.Exists(pathimage)) //判斷資料夾是否存在，否的話就創建一個新的
