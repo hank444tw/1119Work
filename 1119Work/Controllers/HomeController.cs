@@ -138,9 +138,35 @@ namespace _1119Work.Controllers
             db.SaveChanges();
             return RedirectToAction("ListBook");
         }
+        
+        public ActionResult DeleteInnerPage(int Page)
+        {
+            int fid = (int)Session["EditId"];
+
+            var todo = db.InnerPage.Where(m => m.BookID == fid && m.Page == Page).FirstOrDefault();
+            var FolderPath = Server.MapPath("~/Image/" + fid); //圖片資料夾實體位置
+            var path = Path.Combine(FolderPath, todo.ImageName + " .png"); //圖片檔案位置
+            System.IO.File.Delete(path); //刪除圖片檔案
+            db.InnerPage.Remove(todo);
+            db.SaveChanges();
+
+            InnerPage innerPage = new InnerPage();
+            var todo2 = db.InnerPage.Where(m => m.BookID == fid && m.Page > Page).OrderBy(m => m.Page).ToList();
+            //long a = todo2.LongCount();
+            foreach(var item in todo2)
+            {
+                if (item == null) //判斷檔案是否為空的
+                    continue;
+                item.Page = item.Page - 1;
+            }
+            db.SaveChanges();
+            return RedirectToAction("EditBook","Home",new {id = fid});
+            //return Content(fid.ToString());
+        }
 
         public ActionResult EditBook(int id)
         {
+            Session["EditId"] = id;
             TwoModelBook todo = new TwoModelBook()
             {
                 Book = db.Book.Where(m => m.Id == id).FirstOrDefault(),
@@ -179,15 +205,21 @@ namespace _1119Work.Controllers
             int BeforePageAmount = db.InnerPage.Where(m => m.BookID == Id).ToList().Count(); //繪本之前內頁圖片的數量
             //-------------修改內頁圖片----------------
             int GG = 0;
-            foreach(var item in fileList)
+            if(fileList != null)
             {
-                if(item == null)
+                foreach (var item in fileList)
                 {
-                    GG++;
+                    if (item == null)
+                    {
+                        GG++;
+                    }
                 }
             }
+            
 
-            if(GG != BeforePageAmount) { 
+            
+
+            if(GG != BeforePageAmount || fileList != null) { 
                 string[] ModifyPage = Page.Split(',');
                 int ModifyAmount = ModifyPage.Length;
                 string[] PageAmount = new string[BeforePageAmount+1];
@@ -258,8 +290,6 @@ namespace _1119Work.Controllers
                     db.SaveChanges();
                 }
             return RedirectToAction("ListBook");
-            //string a = ModifyPageArray[ModifyPage];
-            //return Content(RealModifyPage[3].ToString());
         }
 
         public static string GetRandomStringByGuid()  //使用Guid產生亂碼

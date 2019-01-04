@@ -7,51 +7,68 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(m => m.Book.Id)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.Book.Id)
 
-    <div class="form-group">
-        <label class="control-label col-md-2">書名</label>
-        <div class="col-md-10">
-            @*Html.TextBox("Test", "123456")*@
-            <input type="text" id="BookName" name="BookName" value="@Html.DisplayFor(m => m.Book.BookName)" class="form-control" />
-            @*Html.EditorFor(m => m.Book.BookName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.Book.BookName, "", new { @class = "text-danger" })*@
+        <div class="form-group">
+            <label class="control-label col-md-2">書名</label>
+            <div class="col-md-10">
+                @*Html.TextBox("Test", "123456")*@
+                <input type="text" id="BookName" name="BookName" value="@Html.DisplayFor(m => m.Book.BookName)" class="form-control" />
+                @*Html.EditorFor(m => m.Book.BookName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Book.BookName, "", new { @class = "text-danger" })*@
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">作者</label>
-        <div class="col-md-10">
-            <input type="text" id="Author" name="Author" value="@Html.DisplayFor(m => m.Book.Author)" class="form-control" />
+        <div class="form-group">
+            <label class="control-label col-md-2">作者</label>
+            <div class="col-md-10">
+                <input type="text" id="Author" name="Author" value="@Html.DisplayFor(m => m.Book.Author)" class="form-control" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">簡短介紹</label>
-        <div class="col-md-10">
-            <input type="text" id="Introdution" name="Introdution" value="@Html.DisplayFor(m => m.Book.Introdution)" class="form-control" />
+        <div class="form-group">
+            <label class="control-label col-md-2">簡短介紹</label>
+            <div class="col-md-10">
+                <input type="text" id="Introdution" name="Introdution" value="@Html.DisplayFor(m => m.Book.Introdution)" class="form-control" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">繪本封面</label>
-        <div class="col-md-10">
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <form id="form1" runat="server">
-                            <input type='file' name="file5" id="imgInp" />
-                            <!--hidden可讓圖片隱藏-->
-                            <img src="~/Image/@Html.DisplayFor(model => model.Book.Id)/0 @Html.DisplayFor(Model => Model.Book.DeputyFileName)" style="width:200px;height:150px" id="blah" alt="your image" />
-                        </form>
+        <div class="form-group">
+            <label class="control-label col-md-2">繪本封面</label>
+            <div class="col-md-10">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <form id="form1" runat="server">
+                                <input type='file' name="file5" id="imgInp" />
+                                <!--hidden可讓圖片隱藏-->
+                                <img src="~/Image/@Html.DisplayFor(model => model.Book.Id)/0 @Html.DisplayFor(Model => Model.Book.DeputyFileName)" style="width:200px;height:150px" id="blah" alt="your image" />
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#imgInp").change(function () {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#blah').attr('src', e.target.result);
+                            //$('#blah').show(); //圖片顯示
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                }
+                );
+            });
+        </script>
 
         <div class="form-group">
             <div class="row">
@@ -66,7 +83,7 @@
                                 <label class="control-label">頁數: @Html.DisplayFor(modelitem => item.Page)</label>
                             </div>
                             <input type='file' name="fileList" id="imgInp_@item.Page" oninput="" class="file" data-page="@item.Page" />
-
+                            @Html.ActionLink("刪除", "DeleteInnerPage", new { Page = item.Page }, new { @class = "btn btn-danger" })
                             <img src="~/Image/@item.BookID/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" id="blah_@item.Page" alt="your image" />
                         </div>
                     </div>
@@ -93,7 +110,7 @@
                         if ($("#Page").val() == "") {
                             $("#Page").val($(this).data("page"));
                         } else {
-                            $("#Page").val($("#Page").val()+","+$(this).data("page"));
+                            $("#Page").val($("#Page").val() + "," + $(this).data("page"));
                         }
                     });
                 </script>
@@ -102,9 +119,12 @@
 
         <div id="FileList">
             <div>
-                <input type="file" id="file" name="CreatImage" oninput="AddFile();" />
+                <input type="file" id="FileList0" class="filebig" name="CreatImage" oninput="AddFile()" />
+                <img src="" style="width:200px;height:150px" id="blah0" />
             </div>
         </div>
+
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -112,20 +132,49 @@
             </div>
         </div>
     </div>
-    }
+}
 
 
-    <script type="text/javascript" language="javascript">
+
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+
+<script type="text/javascript" language="javascript">
+
+        //var file = "#file" + a
+        //".filebig"
+        var a = 0;
+        $("#FileList" + a).change(function addimage() {
+            alert("c c c c ");
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah' + a++).attr('src', e.target.result);
+                    //$('#blah').show(); //圖片顯示
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        }
+        );
+
     var index = 1;
     function AddFile() {
         var ul = document.getElementById("FileList");
         var inputDiv = document.createElement("div");
-        inputDiv.setAttribute("Id", "div" + index);
+        //inputDiv.setAttribute("Id", "div" + index);
         var file = document.createElement("input");
         file.setAttribute("type", "file");
-        file.setAttribute("id", "file" + index);
+        //file.setAttribute("class", "filebig");
+        file.setAttribute("id", "FileList" + index);
         file.setAttribute("name", "CreatImage");
-        file.setAttribute("oninput", "AddFile();");
+        file.setAttribute("oninput", "AddFile()");
+        var fileImage = document.createElement("img");
+        fileImage.setAttribute("src", "");
+        fileImage.setAttribute("style", "width:200px;height:150px");
+        fileImage.setAttribute("id", "blah" + index);
         var btnDel = document.createElement("input");
         btnDel.setAttribute("type", "button");
         btnDel.setAttribute("value", "删除");
@@ -137,30 +186,12 @@
         }
         inputDiv.appendChild(file);
         inputDiv.appendChild(btnDel);
+        inputDiv.appendChild(fileImage);
         ul.appendChild(inputDiv);
         index++;
         @*Session["UploadAmount"] = index*@;
     }
 
-    </script>
 
-    @*<div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>*@
 
-    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function ImageAppear() {
-            $("#imgInp").change(function () {
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#blah').attr('src', e.target.result);
-                        //$('#blah').show(); //圖片顯示
-                    }
-                    reader.readAsDataURL(this.files[0]);
-                }
-            }
-            );
-        });
-    </script>
+</script>
