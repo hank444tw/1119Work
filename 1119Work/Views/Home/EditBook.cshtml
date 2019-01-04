@@ -53,36 +53,69 @@
         </div>
     </div>
 
-    <div class="row">
-        @foreach (var item in Model.InnerPage)
-        {
-            <div class="col-md-2">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <label class="control-label">頁數: @Html.DisplayFor(modelitem => item.Page)</label>
+        <div class="form-group">
+            <div class="row">
+                <input type="hidden" data-val="true" data-val-number="欄位 Page 必須是數字。" id="Page" name="Page" value="" />
+                @foreach (var item in Model.InnerPage)
+                {
+                    @*Html.HiddenFor(m => item.Page) 這個name會為"item.Page",後端接不到*@
+
+                    <div class="col-md-2">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <label class="control-label">頁數: @Html.DisplayFor(modelitem => item.Page)</label>
+                            </div>
+                            <input type='file' name="fileList" id="imgInp_@item.Page" oninput="" class="file" data-page="@item.Page" />
+
+                            <img src="~/Image/@item.BookID/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" id="blah_@item.Page" alt="your image" />
+                        </div>
                     </div>
-                    <img src="~/Image/@Html.DisplayFor(modelItem => item.BookID)/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" />
-                </div>
+
+                    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+                    <script type="text/javascript">
+                    $(function () {
+                        $("#imgInp_@item.Page").change(function () {
+                            if (this.files && this.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#blah_@item.Page').attr('src', e.target.result);
+                                    //$('#blah').show(); //圖片顯示
+                                }
+                                reader.readAsDataURL(this.files[0]);
+                            }
+                        }
+                        );
+                    });
+                    </script>
+                }
+                <script>
+                    $(".file").on("change", function () {
+                        if ($("#Page").val() == "") {
+                            $("#Page").val($(this).data("page"));
+                        } else {
+                            $("#Page").val($("#Page").val()+","+$(this).data("page"));
+                        }
+                    });
+                </script>
             </div>
-        }
-    </div>
+        </div>
 
-    <div id="FileList">
-        <div>
-            <input type="file" id="file" name="file0" oninput="AddFile();" />
+        <div id="FileList">
+            <div>
+                <input type="file" id="file" name="CreatImage" oninput="AddFile();" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="儲存" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
+    }
 
 
-<script type="text/javascript" language="javascript">
+    <script type="text/javascript" language="javascript">
     var index = 1;
     function AddFile() {
         var ul = document.getElementById("FileList");
@@ -91,7 +124,7 @@
         var file = document.createElement("input");
         file.setAttribute("type", "file");
         file.setAttribute("id", "file" + index);
-        file.setAttribute("name", "file" + index);
+        file.setAttribute("name", "CreatImage");
         file.setAttribute("oninput", "AddFile();");
         var btnDel = document.createElement("input");
         btnDel.setAttribute("type", "button");
@@ -109,24 +142,25 @@
         @*Session["UploadAmount"] = index*@;
     }
 
-</script>
+    </script>
 
-@*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
+    @*<div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>*@
 
-<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#imgInp").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-                    //$('#blah').show(); //圖片顯示
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function ImageAppear() {
+            $("#imgInp").change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result);
+                        //$('#blah').show(); //圖片顯示
+                    }
+                    reader.readAsDataURL(this.files[0]);
                 }
-                reader.readAsDataURL(this.files[0]);
             }
+            );
         });
-    });
-</script>
+    </script>

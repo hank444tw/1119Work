@@ -7,6 +7,8 @@ using _1119Work.Models;
 using PagedList;
 using System.Net; //取得IP要用到的
 using System.IO;  //儲存、刪除本機資料要用到
+using System.Text.RegularExpressions; //字串中找數字要用到的
+
 
 namespace _1119Work.Controllers
 {
@@ -151,8 +153,9 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(int Id,string BookName,string Author,string Introdution, HttpPostedFileBase file5, FormCollection form)
+        public ActionResult EditBook(int Id,string BookName,string Author,string Introdution,string Page,HttpPostedFileBase file5,IEnumerable<HttpPostedFileBase> fileList, IEnumerable<HttpPostedFileBase> CreatImage) //FormCollection form)
         {
+            
             var book = db.Book.Where(m => m.Id == Id).FirstOrDefault();
             String BookID = Id.ToString(); //id轉字串
             
@@ -172,49 +175,106 @@ namespace _1119Work.Controllers
             book.Author = Author;
             book.Introdution = Introdution;
             db.SaveChanges();
-           
-            //---------------內頁圖片------------------
+
             int BeforePageAmount = db.InnerPage.Where(m => m.BookID == Id).ToList().Count(); //繪本之前內頁圖片的數量
-            bool Check = false; 
-            //int NowPageAmount = (int)Session["UploadAmount"] + BeforePageAmount;
-                InnerPage innerpage = new InnerPage();
-                foreach (string item in Request.Files)
+            //-------------修改內頁圖片----------------
+            if(fileList != null) { 
+                string[] ModifyPage = Page.Split(',');
+                int ModifyAmount = ModifyPage.Length;
+                string[] PageAmount = new string[BeforePageAmount+1];
+                int[] RealModifyPage = new int[BeforePageAmount+1];
+                int a = 1;
+                /*for(int todo = 1;todo <= BeforePageAmount; todo++)
                 {
-                    HttpPostedFileBase fileimage = Request.Files[item] as HttpPostedFileBase;
-                    
+                    PageAmount[todo] = todo.ToString();
+                }*/
+                for(int todo = 0;todo < ModifyAmount; todo++)
+                {
+                    if(ModifyPage[todo] != null)
+                    {
+                        while (ModifyPage[todo] != a.ToString())
+                        {
+                            a++;
+                        }
+                        RealModifyPage[a] = a;//讓有要更改的頁數 有東西 沒有的話就是0
+                        a = 1;
+                    }   
+                }
+
+                foreach(var item in fileList)
+                {
+                    if (item == null || item.ContentLength == 0) //判斷檔案是否為空的
+                        continue;
+
+                    while (RealModifyPage[a] == 0)//0代表那一頁沒有要改
+                    {
+                        a++;
+                    }
+                    var todo = db.InnerPage.Where(m => m.BookID == Id && m.Page == a).FirstOrDefault();
+
+                    var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
+                    var path = Path.Combine(FolderPath,todo.ImageName + " .png"); //圖片檔案位置
+                    System.IO.File.Delete(path); //刪除圖片檔案
+
+                    FolderPath = AppDomain.CurrentDomain.BaseDirectory + "Image/" + BookID;
+                    string fileName = GetRandomStringByGuid(); //跳到取亂碼的GetRandomStringByGuid方法
+                    item.SaveAs(Path.Combine(FolderPath, fileName + " .png"));
+
+                    todo.ImageName = fileName;
+                    db.SaveChanges();
+                    a++;
+                }
+            }
+
+            /*string[] ModifyPageArray = new string[50];
+            int ModifyPage = 1;
+            for(int todo = 1;todo <= BeforePageAmount; todo++)
+            {
+                Regex regex = new Regex(todo.ToString());
+                if (regex.IsMatch(Page))
+                {
+                    Match match = regex.Match(Page);
+                    ModifyPageArray[ModifyPage] = match.Groups[0].ToString();
+                    ModifyPage++;
+                }
+            }*/
+
+            /*Regex regex = new Regex("325");
+            string s = "我郁郁325切勿";
+            if (regex.IsMatch(s))
+            {
+                Match match = regex.Match(s);
+                s = match.Groups[0].ToString();
+            }*/
+
+            //---------------新增內頁圖片------------------
+            InnerPage innerpage = new InnerPage();
+
+                foreach (var fileimage in CreatImage)
+                {
                     if (fileimage == null || fileimage.ContentLength == 0) //判斷檔案是否為空的
                         continue;
 
-                    //判斷是否有上傳封面圖片，有的話則比對是不是和封面圖片一樣，是的話就忽略此圖片，如果已忽略過一次，便不執行
-                    if (file5 != null && !Check) 
-                    {
-                        if (fileimage.FileName == file5.FileName && fileimage.ContentLength == file5.ContentLength)
-                        {
-                            Check = true;
-                            continue;
-                        }     
-                    }
                     string pathimage = Server.MapPath("~/Image/" + BookID);
                     if (!System.IO.Directory.Exists(pathimage)) //判斷資料夾是否存在，否的話就創建一個新的
                     {
                         System.IO.Directory.CreateDirectory(pathimage);
                     }
                     pathimage = AppDomain.CurrentDomain.BaseDirectory + "Image/" + BookID;
-                    //string fileName = fileimage.FileName; //獲取上傳的檔名
-                    string fileName = GetRandomStringByGuid();
+                    string fileName = GetRandomStringByGuid(); //跳到取亂碼的GetRandomStringByGuid方法
                     fileimage.SaveAs(Path.Combine(pathimage, fileName + " .png"));
 
                     BeforePageAmount++;
 
                     innerpage.BookID = Id;
-                    //innerpage.PageAmount = NowPageAmount;
                     innerpage.Page = BeforePageAmount;
                     innerpage.ImageName = fileName;
                     db.InnerPage.Add(innerpage);
                     db.SaveChanges();
-                //return Content("<script>alert('上传文件成功');window.history.back();</script>");
                 }
             return RedirectToAction("ListBook");
+            //string a = ModifyPageArray[ModifyPage];
+            //return Content(RealModifyPage[3].ToString());
         }
 
         public static string GetRandomStringByGuid()  //使用Guid產生亂碼
