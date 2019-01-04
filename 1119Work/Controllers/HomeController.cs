@@ -178,16 +178,22 @@ namespace _1119Work.Controllers
 
             int BeforePageAmount = db.InnerPage.Where(m => m.BookID == Id).ToList().Count(); //繪本之前內頁圖片的數量
             //-------------修改內頁圖片----------------
-            if(fileList != null) { 
+            int GG = 0;
+            foreach(var item in fileList)
+            {
+                if(item == null)
+                {
+                    GG++;
+                }
+            }
+
+            if(GG != BeforePageAmount) { 
                 string[] ModifyPage = Page.Split(',');
                 int ModifyAmount = ModifyPage.Length;
                 string[] PageAmount = new string[BeforePageAmount+1];
                 int[] RealModifyPage = new int[BeforePageAmount+1];
                 int a = 1;
-                /*for(int todo = 1;todo <= BeforePageAmount; todo++)
-                {
-                    PageAmount[todo] = todo.ToString();
-                }*/
+
                 for(int todo = 0;todo < ModifyAmount; todo++)
                 {
                     if(ModifyPage[todo] != null)
@@ -225,27 +231,6 @@ namespace _1119Work.Controllers
                     a++;
                 }
             }
-
-            /*string[] ModifyPageArray = new string[50];
-            int ModifyPage = 1;
-            for(int todo = 1;todo <= BeforePageAmount; todo++)
-            {
-                Regex regex = new Regex(todo.ToString());
-                if (regex.IsMatch(Page))
-                {
-                    Match match = regex.Match(Page);
-                    ModifyPageArray[ModifyPage] = match.Groups[0].ToString();
-                    ModifyPage++;
-                }
-            }*/
-
-            /*Regex regex = new Regex("325");
-            string s = "我郁郁325切勿";
-            if (regex.IsMatch(s))
-            {
-                Match match = regex.Match(s);
-                s = match.Groups[0].ToString();
-            }*/
 
             //---------------新增內頁圖片------------------
             InnerPage innerpage = new InnerPage();
