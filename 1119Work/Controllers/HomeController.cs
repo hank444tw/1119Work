@@ -127,11 +127,18 @@ namespace _1119Work.Controllers
         public ActionResult DeleteBook(int id)
         {
             var book = db.Book.Where(m => m.Id == id).FirstOrDefault();
-
+            var todo = db.InnerPage.Where(m => m.BookID == id).ToList();
             String BookID = id.ToString();
             var FolderPath = Server.MapPath("~/Image/" + BookID); //圖片資料夾實體位置
             var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //圖片檔案位置
             System.IO.File.Delete(path); //刪除圖片檔案
+            foreach(var item in todo)
+            {
+                var FolderPath2 = Server.MapPath("~/Image/" + id); //圖片資料夾實體位置
+                var path2 = Path.Combine(FolderPath,item.ImageName + " .png"); //圖片檔案位置
+                System.IO.File.Delete(path2); //刪除圖片檔案
+                db.InnerPage.Remove(item);
+            }
             Directory.Delete(FolderPath); //刪除圖片資料夾
 
             db.Book.Remove(book);
@@ -162,6 +169,40 @@ namespace _1119Work.Controllers
             db.SaveChanges();
             return RedirectToAction("EditBook","Home",new {id = fid});
             //return Content(fid.ToString());
+        }
+
+        public ActionResult UpInnerPage(int Page)
+        {
+            int fid = (int)Session["EditId"];
+            int check = db.InnerPage.Where(m => m.BookID == fid).Max(m => m.Page).Value;
+            if(Page == check)
+            {
+                return RedirectToAction("EditBook", "Home", new { id = fid });
+            }
+            var todo1 = db.InnerPage.Where(m => m.BookID == fid && m.Page == Page).FirstOrDefault();
+            var todo2 = db.InnerPage.Where(m => m.BookID == fid && m.Page == Page+1).FirstOrDefault();
+            string change = todo1.ImageName;
+            todo1.ImageName = todo2.ImageName;
+            todo2.ImageName = change;
+            db.SaveChanges();
+            return RedirectToAction("EditBook", "Home", new { id = fid });
+        }
+
+        public ActionResult DownInnerPage(int Page)
+        {
+            int fid = (int)Session["EditId"];
+            int check = db.InnerPage.Where(m => m.BookID == fid).Min(m => m.Page).Value;
+            if (Page == check)
+            {
+                return RedirectToAction("EditBook", "Home", new { id = fid });
+            }
+            var todo1 = db.InnerPage.Where(m => m.BookID == fid && m.Page == Page).FirstOrDefault();
+            var todo2 = db.InnerPage.Where(m => m.BookID == fid && m.Page == Page - 1).FirstOrDefault();
+            string change = todo1.ImageName;
+            todo1.ImageName = todo2.ImageName;
+            todo2.ImageName = change;
+            db.SaveChanges();
+            return RedirectToAction("EditBook", "Home", new { id = fid });
         }
 
         public ActionResult EditBook(int id)
@@ -215,11 +256,8 @@ namespace _1119Work.Controllers
                     }
                 }
             }
-            
 
-            
-
-            if(GG != BeforePageAmount || fileList != null) { 
+            if(GG != BeforePageAmount && fileList != null) { 
                 string[] ModifyPage = Page.Split(',');
                 int ModifyAmount = ModifyPage.Length;
                 string[] PageAmount = new string[BeforePageAmount+1];

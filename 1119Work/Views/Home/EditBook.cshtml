@@ -77,12 +77,14 @@
                 {
                     @*Html.HiddenFor(m => item.Page) 這個name會為"item.Page",後端接不到*@
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="thumbnail">
                             <div class="caption">
                                 <label class="control-label">頁數: @Html.DisplayFor(modelitem => item.Page)</label>
                             </div>
-                            <input type='file' name="fileList" id="imgInp_@item.Page" oninput="" class="file" data-page="@item.Page" />
+                            <input type='file' name="fileList" id="imgInp_@item.Page" class="file" data-page="@item.Page" class="btn btn-group" />
+                            @Html.ActionLink("左移", "DownInnerPage", new { Page = item.Page }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("右移", "UpInnerPage", new { Page = item.Page }, new { @class = "btn btn-warning" })
                             @Html.ActionLink("刪除", "DeleteInnerPage", new { Page = item.Page }, new { @class = "btn btn-danger" })
                             <img src="~/Image/@item.BookID/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" id="blah_@item.Page" alt="your image" />
                         </div>
@@ -128,7 +130,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="儲存" class="btn btn-default" />
+                <input type="submit" value="儲存" class="btn btn-success" />
             </div>
         </div>
     </div>
