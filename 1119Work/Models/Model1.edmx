@@ -10,6 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rid" Type="nvarchar" MaxLength="50" />
           <Property Name="BookName" Type="nvarchar" MaxLength="50" />
           <Property Name="Author" Type="nvarchar" MaxLength="50" />
           <Property Name="Introdution" Type="nvarchar" MaxLength="50" />
@@ -21,8 +22,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BookID" Type="int" />
-          <Property Name="PageAmount" Type="int" />
+          <Property Name="Rid" Type="nvarchar" MaxLength="50" />
           <Property Name="Page" Type="int" />
           <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -31,6 +31,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rid" Type="nvarchar" MaxLength="50" />
           <Property Name="Mem_id" Type="nvarchar" MaxLength="50" />
           <Property Name="Mem_password" Type="nvarchar" MaxLength="50" />
           <Property Name="Mem_name" Type="nvarchar" MaxLength="50" />
@@ -66,6 +67,7 @@
           <Property Name="Introdution" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DeputyFileName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="MemberID" Type="Int32" />
+          <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -76,6 +78,7 @@
           <Property Name="Mem_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mem_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DeputyFileName" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MemLog">
           <Key>
@@ -98,8 +101,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookID" Type="Int32" />
-          <Property Name="PageAmount" Type="Int32" />
+          <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Page" Type="Int32" />
           <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -112,6 +114,7 @@
           <EntitySetMapping Name="Book">
             <EntityTypeMapping TypeName="DB40441124Model.Book">
               <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="Rid" ColumnName="Rid" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BookName" ColumnName="BookName" />
@@ -124,6 +127,7 @@
           <EntitySetMapping Name="Member">
             <EntityTypeMapping TypeName="DB40441124Model.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Rid" ColumnName="Rid" />
                 <ScalarProperty Name="DeputyFileName" ColumnName="DeputyFileName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
@@ -148,8 +152,7 @@
               <MappingFragment StoreEntitySet="InnerPage">
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Page" ColumnName="Page" />
-                <ScalarProperty Name="PageAmount" ColumnName="PageAmount" />
-                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="Rid" ColumnName="Rid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

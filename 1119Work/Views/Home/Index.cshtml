@@ -6,44 +6,53 @@
     ViewBag.Title = "電子書線上閱讀系統";
 }
 
-<h2>電子書線上閱讀系統</h2>
 
-<div class="row">
+<h2><font face="微軟正黑體">電子書線上閱讀系統</font></h2>
+<hr />
+
+<div class="row"> <!--代表'行'，確保div能排成一行-->
     @foreach (var item in Model)
     {
-    <div class="col-md-4">
-        <div class="thumbnail">
-            <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:150px" />
-            <div class="caption">
-                <h2>
-                    @Html.DisplayFor(modelItem => item.BookName)
-                </h2>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Author)
-                </p>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Introdution)
-                </p>
-                @* @Html.ActionLink("閱讀", "Book"d, new { @class = "btn btn-success" }) *@
-                <a href="/Home/Book?Id=@item.Id" class="btn btn-success">閱讀</a>
+        <div class="col-md-4">
+            <div class="thumbnail" style="background-color:snow;border-color:darkgrey"> <!--thumbnail讓該區域變成含有圓角框線的縮圖元件-->
+                <img src="~/Image/@Html.DisplayFor(modelItem => item.Rid)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:200px;height:150px" class="img-rounded" /> <!--圓角圖片-->
+                <div class="caption">
+                    <h2>
+                        @Html.DisplayFor(modelItem => item.BookName)
+                    </h2>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </p>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Introdution)
+                    </p>
+                    @* @Html.ActionLink("閱讀", "Book"d, new { @class = "btn btn-success" }) *@
+                    <a href="@Url.RouteUrl("Book",new {item.BookName})" class="btn btn-success">閱讀</a>
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
 
+
 <div class="row">
     <div class="col-md-6 col-md-offset-5">
-        @Html.PagedListPager(Model,page=>Url.Action("Index",new { page }),
-    new PagedListRenderOptions {
-        LinkToFirstPageFormat = "<<",
-        LinkToPreviousPageFormat = "<",
-        LinkToNextPageFormat = ">",
-        LinkToLastPageFormat = ">>",
-        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
-        DisplayLinkToLastPage = PagedListDisplayMode.Always,
-        DisplayLinkToNextPage = PagedListDisplayMode.Always,
-        DisplayLinkToPreviousPage = PagedListDisplayMode.Always
-    })
+        @*Html.PagedListPager(Model,page=>Url.Action("Index",new { page }),*@
+        @Html.PagedListPager(Model, page => Url.RouteUrl("HomePage",new {page}),
+            new PagedListRenderOptions {
+                LinkToFirstPageFormat = "<<",
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+                LinkToLastPageFormat = ">>",
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always
+            }
+        )
     </div>
 </div>
+
+
+
+

@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="DB40441124Model.Book" Width="1.5" PointX="4.375" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB40441124Model.Member" Width="1.5" PointX="2.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB40441124Model.MemLog" Width="1.5" PointX="1.125" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB40441124Model.InnerPage" Width="1.5" PointX="6" PointY="1.25" />
+        <EntityTypeShape EntityType="DB40441124Model.InnerPage" Width="1.5" PointX="6.25" PointY="1.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

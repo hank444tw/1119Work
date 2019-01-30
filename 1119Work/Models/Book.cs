@@ -20,5 +20,6 @@ namespace _1119Work.Models
         public string Introdution { get; set; }
         public string DeputyFileName { get; set; }
         public Nullable<int> MemberID { get; set; }
+        public string Rid { get; set; }
     }
 }

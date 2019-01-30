@@ -19,5 +19,6 @@ namespace _1119Work.Models
         public string Mem_password { get; set; }
         public string Mem_name { get; set; }
         public string DeputyFileName { get; set; }
+        public string Rid { get; set; }
     }
 }

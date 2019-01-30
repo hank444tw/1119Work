@@ -15,8 +15,7 @@ namespace _1119Work.Models
     public partial class InnerPage
     {
         public int Id { get; set; }
-        public Nullable<int> BookID { get; set; }
-        public Nullable<int> PageAmount { get; set; }
+        public string Rid { get; set; }
         public Nullable<int> Page { get; set; }
         public string ImageName { get; set; }
     }

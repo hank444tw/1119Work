@@ -5,6 +5,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rid" Type="nvarchar" MaxLength="50" />
     <Property Name="BookName" Type="nvarchar" MaxLength="50" />
     <Property Name="Author" Type="nvarchar" MaxLength="50" />
     <Property Name="Introdution" Type="nvarchar" MaxLength="50" />
@@ -16,8 +17,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="BookID" Type="int" />
-    <Property Name="PageAmount" Type="int" />
+    <Property Name="Rid" Type="nvarchar" MaxLength="50" />
     <Property Name="Page" Type="int" />
     <Property Name="ImageName" Type="nvarchar" MaxLength="50" />
   </EntityType>
@@ -26,6 +26,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rid" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_id" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_password" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_name" Type="nvarchar" MaxLength="50" />

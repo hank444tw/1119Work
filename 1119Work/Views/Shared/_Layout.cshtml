@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,62 +8,51 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-
-            <div class="navbar-header">
-                <img src="~/Image/1.PNG" width="45" height="45" class="img-circle"/>
-            </div>
-
-            <div class="navbar-header">
+    <div class="navbar navbar-default navbar-fixed-top"> <!--navbar-fixed-top可讓導覽列始終固定在頁面最上方-->
+        <div class="container"> <!--在container標籤中的內容可以隨視窗大小進行變化-->
+            <div class="navbar-header"> <!--導覽列的標頭-->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
+                    <!--navbar-toggle樣式讓此Button標籤小於768px時會顯示縮圖按鈕，data-target表示有使用collapse的區塊。也可用"#區塊id"對應有此id名的區塊-->
+                    <span class="icon-bar"></span> <!--代表縮圖按鈕中的"一"-->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("電子書線上閱讀系統", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("登入紀錄", "SigninRecord", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("會員名單", "ListMember", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("新增會員", "CreateMember", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("登入", "Signin", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Image/1.PNG" width="40" height="40" class="img-circle navbar-nav" />
+                @Html.RouteLink("電子書線上閱讀系統", "HomePage",new {},new { @class = "navbar-brand" })
             </div>
 
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <!--"https://getbootstrap.com/docs/3.3/components/"bootstrap3的glyphicon列表-->
+                        <a href="@Url.RouteUrl("ListBook")"><span class="glyphicon glyphicon-book"></span> 繪本名單</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-eye-open"></span> 會員資料<span class="caret"></span>  <!--class="caret"為倒三角形符號-->
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.RouteUrl("ListMember")"><span class="glyphicon glyphicon-list-alt"></span> 會員名單</a>
+                            </li>
+                            <li>
+                                <a href="@Url.RouteUrl("SigninRecord")"><span class="glyphicon glyphicon-time"></span> 登入紀錄</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right"> <!--置右-->
+                    <li>
+                        <a href="@Url.RouteUrl("CreateMember")"><span class="glyphicon glyphicon-user"></span> 註冊</a>
+                    </li>
+                    <li>
+                        <a href="@Url.RouteUrl("Signin")"><span class="glyphicon glyphicon-log-in"></span> 登入</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -81,7 +71,155 @@
         </footer>
     </div>
 
-    <script src="jquery-3.3.1.min.js"></script>     
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!--"https://work.smarchal.com/twbscolor/"可自己客製做出導覽列，再複製CSS-->
+    <style type="text/css">
+        .navbar {
+          background-color: #c5e1f4;
+        }
+        .navbar .navbar-brand {
+          color: #768082;
+        }
+        .navbar .navbar-brand:hover,
+        .navbar .navbar-brand:focus {
+          color: #709ded;
+        }
+        .navbar .navbar-text {
+          color: #768082;
+        }
+        .navbar .navbar-text a {
+          color: #709ded;
+        }
+        .navbar .navbar-text a:hover,
+        .navbar .navbar-text a:focus {
+          color: #709ded;
+        }
+        .navbar .navbar-nav .nav-link {
+          color: #768082;
+          border-radius: .25rem;
+          margin: 0 0.25em;
+        }
+        .navbar .navbar-nav .nav-link:not(.disabled):hover,
+        .navbar .navbar-nav .nav-link:not(.disabled):focus {
+          color: #709ded;
+        }
+        .navbar .navbar-nav .dropdown-menu {
+          background-color: #c5e1f4;
+          border-color: #70c7c6;
+        }
+        .navbar .navbar-nav .dropdown-menu .dropdown-item {
+          color: #768082;
+        }
+        .navbar .navbar-nav .dropdown-menu .dropdown-item:hover,
+        .navbar .navbar-nav .dropdown-menu .dropdown-item:focus,
+        .navbar .navbar-nav .dropdown-menu .dropdown-item.active {
+          color: #709ded;
+          background-color: #70c7c6;
+        }
+        .navbar .navbar-nav .dropdown-menu .dropdown-divider {
+          border-top-color: #70c7c6;
+        }
+        .navbar .navbar-nav .nav-item.active .nav-link,
+        .navbar .navbar-nav .nav-item.active .nav-link:hover,
+        .navbar .navbar-nav .nav-item.active .nav-link:focus,
+        .navbar .navbar-nav .nav-item.show .nav-link,
+        .navbar .navbar-nav .nav-item.show .nav-link:hover,
+        .navbar .navbar-nav .nav-item.show .nav-link:focus {
+          color: #709ded;
+          background-color: #70c7c6;
+        }
+        .navbar .navbar-toggle {
+          border-color: #70c7c6;
+        }
+        .navbar .navbar-toggle:hover,
+        .navbar .navbar-toggle:focus {
+          background-color: #70c7c6;
+        }
+        .navbar .navbar-toggle .navbar-toggler-icon {
+          color: #768082;
+        }
+        .navbar .navbar-collapse,
+        .navbar .navbar-form {
+          border-color: #768082;
+        }
+        .navbar .navbar-link {
+          color: #768082;
+        }
+        .navbar .navbar-link:hover {
+          color: #709ded;
+        }
+
+        @@media (max-width: 575px) {
+          .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item {
+            color: #768082;
+          }
+          .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+          .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+            color: #709ded;
+          }
+          .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item.active {
+            color: #709ded;
+            background-color: #70c7c6;
+          }
+        }
+
+        @@media (max-width: 767px) {
+          .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item {
+            color: #768082;
+          }
+          .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+          .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+            color: #709ded;
+          }
+          .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item.active {
+            color: #709ded;
+            background-color: #70c7c6;
+          }
+        }
+
+        @@media (max-width: 991px) {
+          .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item {
+            color: #768082;
+          }
+          .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+          .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+            color: #709ded;
+          }
+          .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item.active {
+            color: #709ded;
+            background-color: #70c7c6;
+          }
+        }
+
+        @@media (max-width: 1199px) {
+          .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item {
+            color: #768082;
+          }
+          .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+          .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+            color: #709ded;
+          }
+          .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item.active {
+            color: #709ded;
+            background-color: #70c7c6;
+          }
+        }
+
+        .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item {
+          color: #768082;
+        }
+        .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+        .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+          color: #709ded;
+        }
+        .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active {
+          color: #709ded;
+          background-color: #70c7c6;
+        }
+    </style>
 </body>
 </html>
+
+

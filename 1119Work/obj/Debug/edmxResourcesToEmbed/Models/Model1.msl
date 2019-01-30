@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Book">
       <EntityTypeMapping TypeName="DB40441124Model.Book">
         <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="Rid" ColumnName="Rid" />
           <ScalarProperty Name="MemberID" ColumnName="MemberID" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="BookName" ColumnName="BookName" />
@@ -16,6 +17,7 @@
     <EntitySetMapping Name="Member">
       <EntityTypeMapping TypeName="DB40441124Model.Member">
         <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="Rid" ColumnName="Rid" />
           <ScalarProperty Name="DeputyFileName" ColumnName="DeputyFileName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Mem_id" ColumnName="Mem_id" />
@@ -40,8 +42,7 @@
         <MappingFragment StoreEntitySet="InnerPage">
           <ScalarProperty Name="ImageName" ColumnName="ImageName" />
           <ScalarProperty Name="Page" ColumnName="Page" />
-          <ScalarProperty Name="PageAmount" ColumnName="PageAmount" />
-          <ScalarProperty Name="BookID" ColumnName="BookID" />
+          <ScalarProperty Name="Rid" ColumnName="Rid" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

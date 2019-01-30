@@ -12,7 +12,7 @@ namespace _1119Work
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            RouteConfig.RegisterRoutes(RouteTable.Routes); //用來儲存所有的Route規則
         }
     }
 }

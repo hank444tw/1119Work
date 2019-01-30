@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<_1119Work.Models.Member>
 
 @{
-    ViewBag.Title = "ListMember";
+    ViewBag.Title = "會員名單";
 }
 
 <h2>會員名單</h2>
@@ -13,7 +13,7 @@
 -->
 
 
-<table class="table">
+<table class="table table-striped"> <!--表格交替顏色-->
     <tr>
         <th>
             帳號
@@ -40,8 +40,19 @@
                 @Html.DisplayFor(modelItem => item.Mem_name)
             </td>
             <td>
-                @Html.ActionLink("修改", "Edit", new { id = item.Id }) 
-                @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+                <!--<form method="post" action="Home/Edit">
+        <input type="hidden" value="@item.Id" name="id"/>
+        <input type="submit" class="btn btn-warning" value="修改" />
+    </form>-->
+                
+                
+                @*<a href="@Url.RouteUrl("DeleteMember",new {item.Id})" class="btn btn-danger" onclick="return confirm('確定要刪除嗎')">刪除</a>*@
+                <!--alert為警告視窗，沒有取消按鈕，confirm則有確定和取消鈕，加return跳過後端的程式-->
+                <form action="@Url.RouteUrl("DeleteMember",new {item.Rid})" method="post">
+                    <a href="@Url.RouteUrl("EditMember",new {item.Rid})" class="btn btn-warning">修改</a>
+                    <input type="hidden" value="@item.Rid" name="Rid" />
+                    <input type="submit" value="刪除" class="btn btn-danger" onclick="return confirm('確定要刪除嗎?')" />
+                </form>
             </td>
         </tr>
     }

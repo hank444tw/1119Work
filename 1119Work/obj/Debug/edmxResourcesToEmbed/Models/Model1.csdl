@@ -10,6 +10,7 @@
     <Property Name="Introdution" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="DeputyFileName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="MemberID" Type="Int32" />
+    <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Member">
     <Key>
@@ -20,6 +21,7 @@
     <Property Name="Mem_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Mem_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="DeputyFileName" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+    <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="MemLog">
     <Key>
@@ -42,8 +44,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BookID" Type="Int32" />
-    <Property Name="PageAmount" Type="Int32" />
+    <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Page" Type="Int32" />
     <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>

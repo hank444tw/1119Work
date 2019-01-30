@@ -6,48 +6,67 @@
 
 <h2>修改會員資料</h2>
 
-@using (Html.BeginForm())
-{
+<form action="@Url.RouteUrl("EditMember",new {Model.Rid})" method="post">
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Member</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
 
-    <!--<div class="form-group">
-        @Html.LabelFor(model => model.Mem_id, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mem_id, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Mem_id, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>@Model.Mem_name</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input type="hidden" value="@Model.Rid" name="Rid" />
+
+        <!--control-label可讓label文字右對齊-->
+        <div class="form-group">
+            <label class="control-label col-md-2">密碼</label>
+            <div class="col-md-10">
+                <input type="text" name="Mem_password" class="form-control" value="@Model.Mem_password"/>
+                @Html.ValidationMessageFor(model => model.Mem_password, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>-->
 
-    <div class="form-group">
-        <label class="control-label col-md-2">密碼</label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mem_password, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Mem_password, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">姓名</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mem_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mem_name, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">姓名</label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mem_name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Mem_name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="儲存" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-2"></div>  <!--等於<div class="col-md-offset-2 col-md-10">的效果-->
+            <div class="col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
-}
+ </form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <h2>Test</h2>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">下拉式選單</label>
+            <div class="col-md-10">
+                <select class="form-control">
+                    <option value="回傳值">ㄏㄏㄏ</option>
+                    <option value="回傳值">啦啦啦</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">日期選項</label>
+            <div class="col-md-10">
+                <input class="form-control" required="required" name="123" type="date" value="" />
+                <!--required賦予必填的屬性，若沒填寫會出現錯誤提示-->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">電子信箱</label>
+            <div class="col-md-10">
+                <input class="form-control" required="required" name="123" type="email" value="" id="456"/>
+                <!--required賦予必填的屬性，若沒填寫會出現錯誤提示-->
+            </div>
+        </div>
+    </div>

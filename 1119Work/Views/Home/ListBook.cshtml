@@ -6,7 +6,7 @@
 
 <h2>繪本清單</h2>
 
-<table class="table table-hover">
+<table class="table table-hover"> <!--滑鼠移入表格列變換顏色-->
     <tr>
         <th>
             封面
@@ -26,7 +26,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            <img src="~/Image/@Html.DisplayFor(modelItem => item.Id)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:100px;height:80px" />
+            <img src="~/Image/@Html.DisplayFor(modelItem => item.Rid)/0 @Html.DisplayFor(modelItem => item.DeputyFileName)" style="width:100px;height:80px" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BookName)
@@ -38,10 +38,17 @@
             @Html.DisplayFor(modelItem => item.Introdution)
         </td>
         <td>
-            @if ((int)Session["MemberID"] == item.MemberID) //判斷是否為該會員所上傳的繪本
-            {
-                @Html.ActionLink("繪本管理", "EditBook", new { id = item.Id }, new { @class = "btn btn-success" })
-                @Html.ActionLink("刪除", "DeleteBook", new { id = item.Id }, new { @class = "btn btn-danger" })
+            @{if (Session["MemberID"] != null) //判斷有沒有登入了
+                {
+                    if ((int)Session["MemberID"] == item.MemberID) //判斷是否為該會員所上傳的繪本
+                    {
+                        <form action="@Url.RouteUrl("DeleteBook",new {item.Rid})" method="post">
+                            <a href="@Url.RouteUrl("EditBook",new {item.Rid})" class="btn btn-primary">繪本管理</a>
+                            <input type="hidden" value="@item.Rid" name="Rid" />
+                            <input type="submit" value="刪除" class="btn btn-danger" onclick="return confirm('真的要刪除嗎?')"/>
+                        </form>
+                    }
+                }
             }
         </td>
     </tr>

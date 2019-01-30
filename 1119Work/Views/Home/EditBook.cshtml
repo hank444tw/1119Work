@@ -3,14 +3,15 @@
 
 <h2>繪本管理</h2>
 
-@using (Html.BeginForm("EditBook", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+@*using (Html.BeginForm("EditBook", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form action="@Url.RouteUrl("EditBook",new {Model.Book.Rid})" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(m => m.Book.Id)
+        @Html.HiddenFor(m => m.Book.Rid)
 
         <div class="form-group">
             <label class="control-label col-md-2">書名</label>
@@ -45,7 +46,7 @@
                             <form id="form1" runat="server">
                                 <input type='file' name="file5" id="imgInp" />
                                 <!--hidden可讓圖片隱藏-->
-                                <img src="~/Image/@Html.DisplayFor(model => model.Book.Id)/0 @Html.DisplayFor(Model => Model.Book.DeputyFileName)" style="width:200px;height:150px" id="blah" alt="your image" />
+                                <img src="~/Image/@Html.DisplayFor(model => model.Book.Rid)/0 @Html.DisplayFor(Model => Model.Book.DeputyFileName)" style="width:200px;height:150px" id="blah" alt="your image" />
                             </form>
                         </div>
                     </div>
@@ -53,7 +54,7 @@
             </div>
         </div>
 
-        <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery-3.3.1.js")" type="text/javascript"></script>
         <script type="text/javascript">
             $(function () {
                 $("#imgInp").change(function () {
@@ -83,28 +84,36 @@
                                 <label class="control-label">頁數: @Html.DisplayFor(modelitem => item.Page)</label>
                             </div>
                             <input type='file' name="fileList" id="imgInp_@item.Page" class="file" data-page="@item.Page" class="btn btn-group" />
-                            @Html.ActionLink("左移", "DownInnerPage", new { Page = item.Page }, new { @class = "btn btn-primary" })
-                            @Html.ActionLink("右移", "UpInnerPage", new { Page = item.Page }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("刪除", "DeleteInnerPage", new { Page = item.Page }, new { @class = "btn btn-danger" })
-                            <img src="~/Image/@item.BookID/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" id="blah_@item.Page" alt="your image" />
+                            <form action="@Url.RouteUrl("DownInnerPage",new {item.Page})" method="post" class="col-md-3">
+                                <input type="hidden" value="@item.Page" name="Page" />
+                                <input type="submit" value="左移" class="btn btn-primary" />
+                            </form>
+                            <form action="@Url.RouteUrl("UpInnerPage",new {item.Page})" method="post" class="col-md-3">
+                                <input type="hidden" value="@item.Page" name="Page" />
+                                <input type="submit" value="右移" class="btn btn-warning" />
+                            </form>
+                            <form action="@Url.RouteUrl("DeleteInnerPage",new {item.Page})" method="post" class="col-md-3">
+                                <input type="hidden" value="@item.Page" name="Page" />
+                                <input type="submit" value="刪除" class="btn btn-danger" />
+                            </form>
+                            <img src="~/Image/@item.Rid/@Html.DisplayFor(modelItem => item.ImageName) .png" style="width:200px;height:150px" id="blah_@item.Page" alt="your image" />
                         </div>
                     </div>
 
-                    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
                     <script type="text/javascript">
-                    $(function () {
-                        $("#imgInp_@item.Page").change(function () {
-                            if (this.files && this.files[0]) {
-                                var reader = new FileReader();
-                                reader.onload = function (e) {
-                                    $('#blah_@item.Page').attr('src', e.target.result);
-                                    //$('#blah').show(); //圖片顯示
+                        $(function () {
+                            $("#imgInp_@item.Page").change(function () {
+                                if (this.files && this.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        $('#blah_@item.Page').attr('src', e.target.result);
+                                        //$('#blah').show(); //圖片顯示
+                                    }
+                                    reader.readAsDataURL(this.files[0]);
                                 }
-                                reader.readAsDataURL(this.files[0]);
                             }
-                        }
-                        );
-                    });
+                            );
+                        });
                     </script>
                 }
                 <script>
@@ -122,7 +131,7 @@
         <div id="FileList">
             <div>
                 <input type="file" id="FileList0" class="filebig" name="CreatImage" oninput="AddFile()" />
-                <img src="" style="width:200px;height:150px" id="blah0" />
+                <!--<img src="" style="width:200px;height:150px" id="blah0" />-->
             </div>
         </div>
 
@@ -134,22 +143,22 @@
             </div>
         </div>
     </div>
-}
+ </form>
 
 
 
 
-@*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
+    @*<div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>*@
 
 
-<script type="text/javascript" language="javascript">
+    <script type="text/javascript" language="javascript">
 
         //var file = "#file" + a
         //".filebig"
         var a = 0;
-        $("#FileList" + a).change(function addimage() {
+        /*$("#FileList" + a).change(function addimage() {
             alert("c c c c ");
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
@@ -160,7 +169,7 @@
                 reader.readAsDataURL(this.files[0]);
             }
         }
-        );
+        );*/
 
     var index = 1;
     function AddFile() {
@@ -196,4 +205,4 @@
 
 
 
-</script>
+    </script>
