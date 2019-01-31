@@ -6,18 +6,28 @@
 //     如果重新產生程式碼，將會覆寫對這個檔案的手動變更。
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace _1119Work.Models
 {
     using System;
     using System.Collections.Generic;
+   
     
     public partial class Book
     {
         public int Id { get; set; }
+
+        [DisplayName("書名")]
         public string BookName { get; set; }
+
+        [DisplayName("作者")]
         public string Author { get; set; }
+
+        [DisplayName("簡短介紹")]
         public string Introdution { get; set; }
+
         public string DeputyFileName { get; set; }
         public Nullable<int> MemberID { get; set; }
         public string Rid { get; set; }

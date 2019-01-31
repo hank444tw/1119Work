@@ -6,6 +6,11 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.ide
+*.ide-shm
+*.ide-wai
+*.dll
+*.pdb
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -261,5 +266,3 @@ __pycache__/
 *.pyc
 
 # Sheng 你ㄖ喔
-1119Work/App_Data/DB40441124.mdf
-1119Work/App_Data/DB40441124_log.ldf
