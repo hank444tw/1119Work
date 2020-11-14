@@ -14,15 +14,17 @@
 <body>
     <div class="navbar navbar-default navbar-fixed-top"> <!--navbar-fixed-top可讓導覽列始終固定在頁面最上方-->
         <div class="container"> <!--在container標籤中的內容可以隨視窗大小進行變化-->
-            <div class="navbar-header"> <!--導覽列的標頭-->
+            <div class="navbar-header">
+                <!--導覽列的標頭-->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <!--navbar-toggle樣式讓此Button標籤小於768px時會顯示縮圖按鈕，data-target表示有使用collapse的區塊。也可用"#區塊id"對應有此id名的區塊-->
                     <span class="icon-bar"></span> <!--代表縮圖按鈕中的"一"-->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="~/Image/1.PNG" width="40" height="40" class="img-circle navbar-nav" />
-                @Html.RouteLink("電子書線上閱讀系統", "HomePage",new {},new { @class = "navbar-brand" })
+                <img src="~/Image/1.PNG" width="40" height="40" class="img-circle navbar-nav TopImage" />
+                @*Html.RouteLink("電子書線上閱讀系統", "HomePage", new { }, new { @class = "navbar-brand" })*@
+                <a href="@Url.RouteUrl("HomePage")" class="navbar-brand">電子書線上閱讀系統</a>
             </div>
 
             <div class="navbar-collapse collapse">
@@ -60,6 +62,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
+       
         <footer>
             <div class="row">
                 <div class="col-md-4 col-md-offset-5">
@@ -67,7 +70,6 @@
                     <p>&copy; 虎科神帥阿融製作</p>
                 </div>
             </div>
-
         </footer>
     </div>
 
@@ -76,16 +78,33 @@
 
     <!--"https://work.smarchal.com/twbscolor/"可自己客製做出導覽列，再複製CSS-->
     <style type="text/css">
+
         .navbar {
           background-color: #c5e1f4;
         }
         .navbar .navbar-brand {
           color: #768082;
+          font-family:"新細明體";
+          font-weight:bold;
+          /*padding-left:40px;
+          /*background-image:url(/Image/1.png);
+          background-size:40px;
+          background-repeat:no-repeat;
+          background-position-y:center;*/
+        }
+
+        .TopImage{
+            margin:5px;
         }
         .navbar .navbar-brand:hover,
         .navbar .navbar-brand:focus {
-          color: #709ded;
+          color: #000000;
         }
+
+        .navbar .navbar-brand:active{
+          color: #ffffff;
+        }
+
         .navbar .navbar-text {
           color: #768082;
         }

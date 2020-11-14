@@ -22,6 +22,7 @@
     <Property Name="Mem_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="DeputyFileName" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
     <Property Name="Rid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordVali" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="MemLog">
     <Key>

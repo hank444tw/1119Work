@@ -11,14 +11,36 @@ namespace _1119Work.Models
 {
     using System;
     using System.Collections.Generic;
+
+    //---模型驗證(Model Vaildate)要用的命名空間------
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    //-----------------------------------------------
     
     public partial class Member
     {
         public int Id { get; set; }
-        public string Mem_id { get; set; }
-        public string Mem_password { get; set; }
-        public string Mem_name { get; set; }
-        public string DeputyFileName { get; set; }
         public string Rid { get; set; }
+
+        [DisplayName("帳號")]
+        [Required(ErrorMessage = "請輸入帳號!")]
+        [StringLength(maximumLength:20,MinimumLength = 3,ErrorMessage = "請輸入介於3~20的字元數量!")]
+        public string Mem_id { get; set; }
+
+        [DisplayName("密碼")]
+        [Required(ErrorMessage = "請輸入密碼!")]
+        [StringLength(maximumLength:20,MinimumLength = 3, ErrorMessage = "請輸入介於3~20的字元數量!")]
+        public string Mem_password { get; set; }
+
+        [DisplayName("確認密碼")]
+        [Required(ErrorMessage = "請再次輸入密碼!")]
+        [Compare(otherProperty:"Mem_password",ErrorMessage = "兩組密碼必須相同!")]
+        public string PasswordVali { get; set; }
+
+        [DisplayName("姓名")]
+        [Required(ErrorMessage = "請輸入姓名!")]
+        public string Mem_name { get; set; }
+
+        public string DeputyFileName { get; set; }
     }
 }

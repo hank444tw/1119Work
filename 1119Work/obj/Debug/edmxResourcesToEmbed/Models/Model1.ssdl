@@ -29,6 +29,7 @@
     <Property Name="Rid" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_id" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_password" Type="nvarchar" MaxLength="50" />
+    <Property Name="PasswordVali" Type="nvarchar" MaxLength="50" />
     <Property Name="Mem_name" Type="nvarchar" MaxLength="50" />
     <Property Name="DeputyFileName" Type="nchar" MaxLength="5" />
   </EntityType>

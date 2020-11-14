@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using _1119Work.Models;
-using PagedList;
+using PagedList;  //頁數要用的
 using System.Net; //取得IP要用到的
 using System.IO;  //儲存、刪除本機資料要用到
 using System.Text.RegularExpressions; //字串中找數字要用到的
@@ -14,10 +14,13 @@ namespace _1119Work.Controllers
 {
     public class HomeController : Controller
     {
-        DB40441124Entities4 db = new DB40441124Entities4();
+        DB40441124Entities5 db = new DB40441124Entities5();
         public int pagesize = 6; //要顯示的資料數量
         string fileName;
 
+        /*-------LINQ方法(Fluent Syntax)-------
+            var 變數 = 集合.LINQ擴充方法(Lamdba運算式); 
+        ----------------------------------------*/
         
         public ActionResult Index(int Page = 1)
         {
@@ -32,40 +35,28 @@ namespace _1119Work.Controllers
         {
             TwoModelBook twomodelbook = new TwoModelBook();
             twomodelbook.Book = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
+
+            /*--------Contains(包含、含有)，可找出具有keyword的欄位資料--------
+            twomodelbook.Book = db.Book.Where(m => m.BookName.Contains("大成")).FirstOrDefault();*/
+
             if(twomodelbook.Book == null)
             {
                 return RedirectToAction("Index");
             }
             twomodelbook.InnerPage = db.InnerPage.Where(m => m.Rid == twomodelbook.Book.Rid).OrderBy(m => m.Page).ToList();
 
-            /*var BookData = (from d1 in db.Book
-                            join d2 in db.InnerPage
-                            on d1.Id equals d2.BookID
-                            select new
-                            {
-                                d1.Id,
-                                d1.BookName,
-                                d1.DeputyFileName,
-                                d1.MemberID,
-                                d2.ImageName,
-                                d2.Page
-                            }).Where(m => m.Id == Id).OrderBy(m => m.Page).ToList();
-            List<JoinBook> joinbook = new List<JoinBook>();
-            foreach(var item in BookData)
-            {
-                joinbook.Add(new JoinBook
-                {
-                    Id = item.Id,
-                    DeputyFileName = item.DeputyFileName,
-                    Page = item.Page,
-                    ImageName = item.ImageName
-                });
-            }*/
+            /*-------LINQ方法 join--------------------------
+            var BookData = db.Book.Join(db.InnerPage,
+                a => a.Rid,
+                b => b.Rid,
+                (c, d) => new { book = c, page = d });
+            -----------------------------------------------*/
             return View(twomodelbook);
         }
 
         public ActionResult SigninRecord(int page = 1)
         {
+            //-------LINQ查詢運算式(Query Expression) join--
             int currentPage = page < 1 ? 1 : page;
             var logdata = (from d1 in db.MemLog
                            join d2 in db.Member
@@ -117,11 +108,17 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string Rid,string Mem_password, string Mem_name)
+        public ActionResult Edit(Member member)
         {
-            var todo = db.Member.Where(m => m.Rid == Rid).FirstOrDefault();
-            todo.Mem_password = Mem_password;
-            todo.Mem_name = Mem_name;
+            var todo = db.Member.Where(m => m.Rid == member.Rid).FirstOrDefault();
+            ModelState.Remove("Mem_id"); //將Mem_id排除驗證
+            if (ModelState.IsValid == false) //檢查驗證是否有通過
+            {
+                return View(todo);
+            }
+            todo.Mem_password = member.Mem_password;
+            todo.PasswordVali = member.PasswordVali;
+            todo.Mem_name = member.Mem_name;
             db.SaveChanges();
             return RedirectToAction("ListMember");
         }
@@ -223,12 +220,8 @@ namespace _1119Work.Controllers
         {
             Session["EditRid"] = Rid;
             TwoModelBook todo = new TwoModelBook();
-            /*{
-                Book = db.Book.Where(m => m.Rid == Rid).FirstOrDefault(),
-                InnerPage = db.InnerPage.Where(m => m.Rid == Rid).OrderBy(m => m.Page).ToList()
-            };*/
             todo.Book = db.Book.Where(m => m.Rid == Rid).FirstOrDefault();
-            if(todo.Book == null)
+            if(todo.Book == null) //預防有臭小子在網址上亂打
             {
                 return RedirectToAction("ListBook");
             }
@@ -237,14 +230,22 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(string Rid,string BookName,string Author,string Introdution,string Page,HttpPostedFileBase file5,IEnumerable<HttpPostedFileBase> fileList, IEnumerable<HttpPostedFileBase> CreatImage) //FormCollection form)
+        //public ActionResult EditBook(string Rid,string BookName,string Author,string Introdution,string Page,HttpPostedFileBase file5,IEnumerable<HttpPostedFileBase> fileList, IEnumerable<HttpPostedFileBase> CreatImage) //FormCollection form)
+        public ActionResult EditBook(Book book, string Page, HttpPostedFileBase file5, IEnumerable<HttpPostedFileBase> fileList, IEnumerable<HttpPostedFileBase> CreatImage) //FormCollection form)
         {
-            
-            var book = db.Book.Where(m => m.Rid == Rid).FirstOrDefault();
+            TwoModelBook UsingVail = new TwoModelBook()
+            {
+                Book = db.Book.Where(m => m.Rid == book.Rid).FirstOrDefault(),
+                InnerPage = db.InnerPage.Where(m => m.Rid == book.Rid).OrderBy(m => m.Page).ToList()
+            };
+            if (ModelState.IsValid == false)
+            {
+                return View(UsingVail);
+            }
             
             if (file5 != null) //判斷有無再上傳封面圖片
             {
-                var FolderPath = Server.MapPath("~/Image/" + Rid); //圖片資料夾實體位置
+                var FolderPath = Server.MapPath("~/Image/" + book.Rid); //圖片資料夾實體位置
                 var path = Path.Combine(FolderPath, "0 " + book.DeputyFileName); //原圖片檔案位置
                 System.IO.File.Delete(path); //刪除原圖
 
@@ -253,13 +254,12 @@ namespace _1119Work.Controllers
                 file5.SaveAs(path2);
                 book.DeputyFileName = fileName; //資料表副檔名欄位更改
             }
-
-            book.BookName = BookName;  
-            book.Author = Author;
-            book.Introdution = Introdution;
+            UsingVail.Book.BookName = book.BookName;
+            UsingVail.Book.Author = book.Author;
+            UsingVail.Book.Introdution = book.Introdution;
             db.SaveChanges();
 
-            int BeforePageAmount = db.InnerPage.Where(m => m.Rid == Rid).ToList().Count(); //繪本之前內頁圖片的數量
+            int BeforePageAmount = db.InnerPage.Where(m => m.Rid == book.Rid).ToList().Count(); //繪本之前內頁圖片的數量
             //-------------修改內頁圖片----------------
             int GG = 0;
             if(fileList != null)
@@ -302,13 +302,13 @@ namespace _1119Work.Controllers
                     {
                         a++;
                     }
-                    var todo = db.InnerPage.Where(m => m.Rid == Rid && m.Page == a).FirstOrDefault();
+                    var todo = db.InnerPage.Where(m => m.Rid == book.Rid && m.Page == a).FirstOrDefault();
 
-                    var FolderPath = Server.MapPath("~/Image/" + Rid); //圖片資料夾實體位置
+                    var FolderPath = Server.MapPath("~/Image/" + book.Rid); //圖片資料夾實體位置
                     var path = Path.Combine(FolderPath,todo.ImageName + " .png"); //圖片檔案位置
                     System.IO.File.Delete(path); //刪除圖片檔案
 
-                    FolderPath = AppDomain.CurrentDomain.BaseDirectory + "Image/" + Rid;
+                    FolderPath = AppDomain.CurrentDomain.BaseDirectory + "Image/" + book.Rid;
                     string fileName = GetRandomStringByGuid(); //跳到取亂碼的GetRandomStringByGuid方法
                     item.SaveAs(Path.Combine(FolderPath, fileName + " .png"));
 
@@ -326,18 +326,18 @@ namespace _1119Work.Controllers
                     if (fileimage == null || fileimage.ContentLength == 0) //判斷檔案是否為空的
                         continue;
 
-                    string pathimage = Server.MapPath("~/Image/" + Rid);
+                    string pathimage = Server.MapPath("~/Image/" + book.Rid);
                     if (!System.IO.Directory.Exists(pathimage)) //判斷資料夾是否存在，否的話就創建一個新的
                     {
                         System.IO.Directory.CreateDirectory(pathimage);
                     }
-                    pathimage = AppDomain.CurrentDomain.BaseDirectory + "Image/" + Rid;
+                    pathimage = AppDomain.CurrentDomain.BaseDirectory + "Image/" + book.Rid;
                     string fileName = GetRandomStringByGuid(); //跳到取亂碼的GetRandomStringByGuid方法
                     fileimage.SaveAs(Path.Combine(pathimage, fileName + " .png"));
 
                     BeforePageAmount++;
 
-                    innerpage.Rid = Rid;
+                    innerpage.Rid = book.Rid;
                     innerpage.Page = BeforePageAmount;
                     innerpage.ImageName = fileName;
                     db.InnerPage.Add(innerpage);
@@ -358,35 +358,26 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateMember(string Mem_id,string Mem_password,string Mem_name,HttpPostedFileBase file)
+        public ActionResult CreateMember(Member member, HttpPostedFileBase file)
         {
-            var test_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            if(ModelState.IsValid == false) //檢查驗證是否通過
+            {
+                return View();
+            }
+            var test_id = db.Member.Where(m => m.Mem_id == member.Mem_id).FirstOrDefault();
             if(test_id != null) //判斷帳號是否已使用過
             {
                 ViewBag.Message = "帳號已有人使用!";
                 return View();
             }
 
-            Member member = new Member();
+            member.Rid = GetRandomStringByGuid();
 
             if (file != null) //判斷有無上傳大頭照
             {
                 fileName = Path.GetExtension(file.FileName); //取得副檔名
                 member.DeputyFileName = fileName; //副檔名存進資料表
-            }
-            member.Mem_id = Mem_id;
-            member.Mem_password = Mem_password;
-            member.Mem_name = Mem_name;
-            member.Rid = GetRandomStringByGuid();
-            db.Member.Add(member);
-            db.SaveChanges();
-
-            var NowData = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
-            String MemberID = NowData.Id.ToString();
-            
-            if (file != null)
-            {
-                var FolderPath = Server.MapPath("~/ImageMember/" + MemberID); //資料夾的路徑及檔名
+                var FolderPath = Server.MapPath("~/ImageMember/" + member.Rid); //資料夾的路徑及檔名
                 if (!Directory.Exists(FolderPath)) //判斷此資料夾是否存在
                 {
                     Directory.CreateDirectory(FolderPath); //創建資料夾
@@ -394,6 +385,8 @@ namespace _1119Work.Controllers
                 var path = Path.Combine(FolderPath, "0 " + fileName); //要儲存圖片的路徑及檔名
                 file.SaveAs(path);
             }
+            db.Member.Add(member);
+            db.SaveChanges();
             return RedirectToAction("ListMember");
         }
 
@@ -403,41 +396,39 @@ namespace _1119Work.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateBook(string BookName, string Author, string Introdution, HttpPostedFileBase file)
+        public ActionResult CreateBook(Book book, HttpPostedFileBase file)
         {
-            var test_BookName = db.Book.Where(m => m.BookName == BookName).FirstOrDefault();
+            if (ModelState.IsValid == false || file == null)
+            {
+                if(file == null)
+                {
+                    ViewBag.Nofile = "請上傳圖片!"; 
+                }
+                return View();
+            }
+
+            var test_BookName = db.Book.Where(m => m.BookName == book.BookName).FirstOrDefault();
             if (test_BookName != null)
             {
                 ViewBag.Message = "此書已有人上傳過!!";
                 return View();
             }
-            if (file.ContentLength > 0)
+
+            book.Rid = GetRandomStringByGuid();
+
+            fileName = Path.GetExtension(file.FileName); //取得副檔名
+            var FolderPath = Server.MapPath("~/Image/" + book.Rid);
+            if (!Directory.Exists(FolderPath))
             {
-                fileName = Path.GetExtension(file.FileName); //取得副檔名
+                Directory.CreateDirectory(FolderPath);
             }
-            Book book = new Book();
-            book.BookName = BookName;
-            book.Author = Author;
-            book.Introdution = Introdution;
+            var path = Path.Combine(FolderPath, "0 " + fileName);
+            file.SaveAs(path);
+        
             book.DeputyFileName = fileName;
             book.MemberID = (int)Session["MemberID"];
-            book.Rid = GetRandomStringByGuid();
             db.Book.Add(book);
             db.SaveChanges();
-
-            string Rid = db.Book.Where(m => m.BookName == BookName).FirstOrDefault().Rid;
-
-            if (file.ContentLength > 0)
-            {
-                var FolderPath = Server.MapPath("~/Image/" + Rid);
-                if (!Directory.Exists(FolderPath))
-                {
-                    Directory.CreateDirectory(FolderPath);
-                }
-                //var path = Path.Combine(HttpContext.Server.MapPath(FolderPath), BookID + fileName);
-                var path = Path.Combine(FolderPath, "0 " + fileName);
-                file.SaveAs(path);
-            }
             return RedirectToAction("ListBook");
         }
 

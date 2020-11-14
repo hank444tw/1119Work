@@ -9,12 +9,6 @@ namespace _1119Work
 {
     public class RouteConfig
     {
-        public static string GetRandomStringByGuid()  //使用Guid產生亂碼
-        {
-            var str = Guid.NewGuid().ToString().Replace("-", ""); //將"-"字號去掉
-            return str;
-        }
-
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}"); //不要透過Route處理的網址
@@ -26,6 +20,12 @@ namespace _1119Work
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional } //如果網址為'/',便連到defaults設定的連結
             );*/
             /*----------------------------*/
+
+            //Test
+            routes.MapRoute(
+                name: "Test",
+                url: "Test",
+                defaults: new { Controller = "Home", action = "Test" });
 
             //最初執行時
             routes.MapRoute(
@@ -49,8 +49,9 @@ namespace _1119Work
             //登入紀錄
             routes.MapRoute(
                 name: "SigninRecord",
-                url: "SigninRecord",
-                defaults: new { Controller = "Home", action = "SigninRecord" });
+                url: "SigninRecord/{Page}",
+                defaults: new { Controller = "Home", action = "SigninRecord",Page = 1},
+                constraints:new {Page = @"\d+"});
 
             //新增會員(註冊)
             routes.MapRoute(

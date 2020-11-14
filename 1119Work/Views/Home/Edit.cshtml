@@ -13,19 +13,28 @@
         <h4>@Model.Mem_name</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <input type="hidden" value="@Model.Rid" name="Rid" />
+        @Html.EditorFor(model => model.Rid, new { htmlAttributes = new { type = "hidden" } })
+        @*<input type="hidden" value="@Model.Rid" name="Rid" />*@
 
         <!--control-label可讓label文字右對齊-->
         <div class="form-group">
-            <label class="control-label col-md-2">密碼</label>
+            @Html.LabelFor(Model => Model.Mem_password, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="text" name="Mem_password" class="form-control" value="@Model.Mem_password"/>
+                @Html.EditorFor(model => model.Mem_password, new { htmlAttributes = new { @class = "form-control", type = "password" } })
                 @Html.ValidationMessageFor(model => model.Mem_password, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">姓名</label>
+            @Html.LabelFor(Model => Model.PasswordVali, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PasswordVali, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                @Html.ValidationMessageFor(model => model.PasswordVali, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(Model => Model.Mem_name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Mem_name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Mem_name, "", new { @class = "text-danger" })
@@ -39,9 +48,9 @@
             </div>
         </div>
     </div>
- </form>
+</form>
 
-    <h2>Test</h2>
+@*<h2>Test</h2>
 
     <div class="form-horizontal">
         <div class="form-group">
@@ -69,4 +78,4 @@
                 <!--required賦予必填的屬性，若沒填寫會出現錯誤提示-->
             </div>
         </div>
-    </div>
+    </div>*@

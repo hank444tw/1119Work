@@ -44,6 +44,10 @@
                         <div class="col-sm-10">
                             <form id="form1" runat="server">
                                 <input type='file' name="file" id="imgInp" />
+                                @if (ViewBag.Nofile == "請上傳圖片!")
+                                {
+                                    <p class="text-danger">請上傳圖片!</p>
+                                }
                                 <!--hidden可讓圖片隱藏-->
                                 <img src="" style="width:200px;height:150px" id="blah" alt="your image" hidden />
                             </form>
@@ -63,7 +67,7 @@
     </div>
 </form>
 
-<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
         $("#imgInp").change(function () {

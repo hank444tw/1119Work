@@ -6,30 +6,35 @@
 //     如果重新產生程式碼，將會覆寫對這個檔案的手動變更。
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace _1119Work.Models
 {
     using System;
     using System.Collections.Generic;
-   
-    
+
+    //---模型驗證(Model Vaildate)要用的命名空間------
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    //-----------------------------------------------
+
     public partial class Book
     {
         public int Id { get; set; }
+        public string Rid { get; set; }
 
         [DisplayName("書名")]
+        [Required(ErrorMessage = "請輸入書名!")]
         public string BookName { get; set; }
 
         [DisplayName("作者")]
+        [Required(ErrorMessage = "請輸入作者!")]
         public string Author { get; set; }
 
         [DisplayName("簡短介紹")]
+        [Required(ErrorMessage = "請輸入介紹!")]
         public string Introdution { get; set; }
 
         public string DeputyFileName { get; set; }
         public Nullable<int> MemberID { get; set; }
-        public string Rid { get; set; }
     }
 }

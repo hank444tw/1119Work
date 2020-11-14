@@ -17,12 +17,12 @@
             <div class="navbar-header">
                 <!--導覽列的標頭-->
                 <img src="~/Image/1.PNG" width="45" height="45" class="img-circle navbar-nav" />
-                <a href="/" class="navbar-brand">電子書線上閱讀系統</a>
+                <a href="@Url.RouteUrl("HomePage")" class="navbar-brand">電子書線上閱讀系統</a>
             </div>
 
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/" style="font-size:medium"><span class="glyphicon glyphicon-home"></span> 返回首頁</a>
+                    <a href="@Url.RouteUrl("HomePage")" style="font-size:medium"><span class="glyphicon glyphicon-home"></span> 返回首頁</a>
                 </li>
             </ul>
 
@@ -30,19 +30,19 @@
                 @if (Session["MemberID"] != null)
                 {
                     <li>
-                        <a href="" style="font-size:medium"><span class="glyphicon glyphicon-user"></span> @Session["Welcome"]</a>
+                        <a style="font-size:medium"><span class="glyphicon glyphicon-user"></span> @Session["Welcome"]</a>
                     </li>
                     <li>
-                        <a href="/home/SignOut" style="font-size:medium"><span class="glyphicon glyphicon-log-out"></span> 登出</a>
+                        <a href="@Url.RouteUrl("SignOut")" style="font-size:medium"><span class="glyphicon glyphicon-log-out"></span> 登出</a>
                     </li>
                 }
                 else
                 {
                     <li>
-                        <a href="/home/CreateMember" style="font-size:medium"><span class="glyphicon glyphicon-user"></span> 註冊</a>
+                        <a href="@Url.RouteUrl("CreateMember")" style="font-size:medium"><span class="glyphicon glyphicon-user"></span> 註冊</a>
                     </li>
                     <li>
-                        <a href="/home/Signin" style="font-size:medium"><span class="glyphicon glyphicon-log-in"></span> 登入</a>
+                        <a href="@Url.RouteUrl("Signin")" style="font-size:medium"><span class="glyphicon glyphicon-log-in"></span> 登入</a>
                     </li>
                 }
             </ul>
