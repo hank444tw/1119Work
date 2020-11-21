@@ -6,7 +6,11 @@
   2. 會員系統。
   3. 電子書圖片CRUD。
   4. 電子書圖片順序更動管理。
- 
+
+* 開發工具
+  1. Visual Studio 2017
+  2. Sourcetree
+
 * 使用技術
   1. ASP.NET MVC
   2. C#
